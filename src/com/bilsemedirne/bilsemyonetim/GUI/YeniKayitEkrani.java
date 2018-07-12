@@ -1344,7 +1344,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private void txtOgrenciTCNOKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtOgrenciTCNOKeyTyped
     {//GEN-HEADEREND:event_txtOgrenciTCNOKeyTyped
         // TODO add your handling code here:
-        if(txtOgrenciTCNO.getText().matches("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d"))
+        if(txtOgrenciTCNO.getText().matches("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d"))
         {
             //islem=false;
             //hata="\n"+"Lüten TC kimlik numarasını 11 haneli ve doğru giriniz";
