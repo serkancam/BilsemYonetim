@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -41,7 +42,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
    
 
     Ogrenci ogrenci=null;
-    String fotoYolu;
+    String fotoYolu,hata="";
     Veli anne=null,baba=null;
  
     byte ogrCinsiyet=-1,ogrAileDurumu=-1,anneHayattami=-1,babaHayattami=-1;
@@ -236,7 +237,6 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         rbKiz = new javax.swing.JRadioButton();
         rbErkek = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        txtOgrenciDogumTarihi = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         txtOgrenciDogumYeri = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -285,6 +285,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         jLabel44 = new javax.swing.JLabel();
         btnKaydet = new javax.swing.JButton();
         txtOgrenciAdi = new javax.swing.JTextField();
+        txtOgrenciDogumTarihi = new javax.swing.JFormattedTextField();
         pnlVeliBilgileri = new javax.swing.JPanel();
         pnlAnneBilgileri = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -385,9 +386,9 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 
         txtOgrenciTCNO.addKeyListener(new java.awt.event.KeyAdapter()
         {
-            public void keyTyped(java.awt.event.KeyEvent evt)
+            public void keyReleased(java.awt.event.KeyEvent evt)
             {
-                txtOgrenciTCNOKeyTyped(evt);
+                txtOgrenciTCNOKeyReleased(evt);
             }
         });
         pnlOgrenci.add(txtOgrenciTCNO, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 180, 30));
@@ -420,18 +421,6 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 
         jLabel4.setText("Doğum Tarihi");
         pnlOgrenci.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
-
-        txtOgrenciDogumTarihi.setColumns(10);
-        try
-        {
-            txtOgrenciDogumTarihi.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.##.####")));
-        } catch (java.text.ParseException ex)
-        {
-            ex.printStackTrace();
-        }
-        txtOgrenciDogumTarihi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtOgrenciDogumTarihi.setPreferredSize(new java.awt.Dimension(116, 21));
-        pnlOgrenci.add(txtOgrenciDogumTarihi, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 180, 30));
 
         jLabel5.setText("Doğum Yeri");
         pnlOgrenci.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
@@ -498,6 +487,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         {
             ex.printStackTrace();
         }
+        txtTanilamaYili.setText("2018");
         pnlOgrenci.add(txtTanilamaYili, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 120, 30));
 
         jLabel14.setText("<html>Bilseme Tanımlama İli</html>");
@@ -527,6 +517,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         {
             ex.printStackTrace();
         }
+        txtBilsemBaslamaYili.setText("2018");
         pnlOgrenci.add(txtBilsemBaslamaYili, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 120, 30));
 
         cbTanilamaIli.setModel(new javax.swing.DefaultComboBoxModel<>(new Cift[] { new Cift(-1,"İl Seç")}));
@@ -724,6 +715,18 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         });
         pnlOgrenci.add(btnKaydet, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 580, 160, 50));
         pnlOgrenci.add(txtOgrenciAdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 180, 30));
+
+        txtOgrenciDogumTarihi.setColumns(10);
+        try
+        {
+            txtOgrenciDogumTarihi.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.##.####")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+        txtOgrenciDogumTarihi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtOgrenciDogumTarihi.setPreferredSize(new java.awt.Dimension(116, 21));
+        pnlOgrenci.add(txtOgrenciDogumTarihi, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 180, 30));
 
         getContentPane().add(pnlOgrenci);
 
@@ -1174,17 +1177,82 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     {//GEN-HEADEREND:event_btnKaydetActionPerformed
         // TODO add your handling code here:
         boolean islem=true;
-        String hata="Hatalı Yapılan İşlemler";
+        hata="Hatalı Yapılan İşlemler";
         
         // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
-        if(!txtOgrenciTCNO.getText().matches("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d"))
+        if(!txtOgrenciTCNO.getText().trim().matches("\\d{11}"))
         {
             islem=false;
-            hata="\n"+"Lüten TC kimlik numarasını 11 haneli ve doğru giriniz";
-            txtOgrenciTCNO.setBackground(Color.orange);
-            txtOgrenciTCNO.setText("");
-        }else{ txtOgrenciTCNO.setBackground(Color.WHITE);}
+            hata+="\n"+"* Lüten TC kimlik numarasını 11 rakamdan oluşacak şekilde giriniz.";
+           
+        }
+        if(!txtOgrenciDogumTarihi.getText().matches("\\d{2}.\\d{2}.\\d{4}"))
+        {
+            islem=false;
+            hata+="\n"+"* 01.01.2008 biçiminde tarih değeri giriniz";          
         
+        }
+        if(!txtOgrenciDogumYeri.getText().matches("\\S+"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen Doğum Yeri bilgisini giriniz.";          
+        
+        }
+        //if(!(txtOgrenciAdi.getText().trim().matches("\\S+") || txtOgrenciAdi.getText().trim().matches("\\S+\\s+\\S+")))
+         if(!txtOgrenciAdi.getText().trim().matches("^[a-zA-Z ]+$"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci Adını giriniz.";          
+        
+        }
+          if(!txtOgrenciSoyadi.getText().trim().matches("\\S+"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci soyadını giriniz.";          
+        
+        }
+        if(!txtOrgunEgitimSubesi.getText().trim().matches("\\S"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci Örgün eğitimdeki sınıf şubesi bilgisini doğru giriniz.";          
+        
+        }
+       // if(!(txtOrgunEgitimOgretmeni.getText().trim().matches("\\S+\\s+\\S+")||txtOrgunEgitimOgretmeni.getText().trim().matches("\\S+\\s+\\S+\\s+\\S+")||
+        //        txtOrgunEgitimOgretmeni.getText().trim().matches("\\S+\\s+\\S+\\s+\\S+\\s+\\S+")))
+        if(!(txtOrgunEgitimOgretmeni.getText().trim().matches("^[a-zA-Z ]+$")))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci Örgün eğitimdeki öğretmen bilgisini giriniz.";          
+        
+        }
+        if(!txtOrgunEgitimNumarasi.getText().trim().matches("\\d+"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci Örgün okul numarası bilgisini doğru giriniz.";          
+        
+        }
+        if(!txtTanilamaYili.getText().trim().matches("\\d{4}"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci ilk BİLSEM tanılama yılı bilgisini doğru giriniz.";          
+        
+        }
+        if(!txtBilsemBaslamaYili.getText().trim().matches("\\d{4}"))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci ilk BİLSEM başlama yılı bilgisini doğru giriniz.";          
+        
+        }
+         if(!(txtOgrenciAdres.getText().trim().length()>6))
+         {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci adres bilgisini doğru giriniz.";          
+        
+        }
+        
+        if(islem==false)
+        {JOptionPane.showMessageDialog(rootPane, hata,"Hata",JOptionPane.ERROR_MESSAGE);}
+      
         // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Öğrenci Değişkenleri doldurma">
@@ -1194,7 +1262,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         SimpleDateFormat df=new SimpleDateFormat("dd.MM.yyyy",Locale.ROOT);       
         try
         {           
-            ogrDogumTarihi=df.parse(txtOgrenciDogumTarihi.getText());                 
+            ogrDogumTarihi=df.parse(txtOgrenciTCNO.getText());                 
 
         } 
         catch (ParseException e) { e.printStackTrace();}
@@ -1341,17 +1409,17 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         }
     }//GEN-LAST:event_rbBabaHayirItemStateChanged
 
-    private void txtOgrenciTCNOKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtOgrenciTCNOKeyTyped
-    {//GEN-HEADEREND:event_txtOgrenciTCNOKeyTyped
+    private void txtOgrenciTCNOKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtOgrenciTCNOKeyReleased
+    {//GEN-HEADEREND:event_txtOgrenciTCNOKeyReleased
         // TODO add your handling code here:
-        if(txtOgrenciTCNO.getText().matches("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d"))
+         if(txtOgrenciTCNO.getText().matches("\\d{11}"))
         {
             //islem=false;
             //hata="\n"+"Lüten TC kimlik numarasını 11 haneli ve doğru giriniz";
             txtOgrenciTCNO.setBackground(Color.WHITE);
            // txtOgrenciTCNO.setText("");
         }else{ txtOgrenciTCNO.setBackground(Color.orange);}
-    }//GEN-LAST:event_txtOgrenciTCNOKeyTyped
+    }//GEN-LAST:event_txtOgrenciTCNOKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
