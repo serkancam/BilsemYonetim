@@ -9,6 +9,7 @@ import com.bilsemedirne.bilsemyonetim.ENTITY.*;
 import com.bilsemedirne.bilsemyonetim.DAO.*;
 import com.bilsemedirne.bilsemyonetim.Islem.Cift;
 import com.bilsemedirne.bilsemyonetim.Islem.GorselIslemler;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -381,6 +382,14 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 
         jLabel2.setText("Adı");
         pnlOgrenci.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+
+        txtOgrenciTCNO.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                txtOgrenciTCNOKeyTyped(evt);
+            }
+        });
         pnlOgrenci.add(txtOgrenciTCNO, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 180, 30));
 
         jLabel3.setText("Soyadı");
@@ -1164,6 +1173,19 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private void btnKaydetActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnKaydetActionPerformed
     {//GEN-HEADEREND:event_btnKaydetActionPerformed
         // TODO add your handling code here:
+        boolean islem=true;
+        String hata="Hatalı Yapılan İşlemler";
+        
+        // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
+        if(!txtOgrenciTCNO.getText().matches("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d"))
+        {
+            islem=false;
+            hata="\n"+"Lüten TC kimlik numarasını 11 haneli ve doğru giriniz";
+            txtOgrenciTCNO.setBackground(Color.orange);
+            txtOgrenciTCNO.setText("");
+        }else{ txtOgrenciTCNO.setBackground(Color.WHITE);}
+        
+        // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Öğrenci Değişkenleri doldurma">
         
@@ -1219,12 +1241,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         babaIsAdresi=txtBabaIsAdresi.getText();
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
-        if(txtOgrenciTCNO.getText().matches("\\d+\\d+\\d+\\d+\\d+\\d+\\d+\\d+\\d+\\d+\\d+"))
-        {
-            System.out.println("");
-        }
-        // </editor-fold>
+        
         
     }//GEN-LAST:event_btnKaydetActionPerformed
 
@@ -1323,6 +1340,18 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             
         }
     }//GEN-LAST:event_rbBabaHayirItemStateChanged
+
+    private void txtOgrenciTCNOKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtOgrenciTCNOKeyTyped
+    {//GEN-HEADEREND:event_txtOgrenciTCNOKeyTyped
+        // TODO add your handling code here:
+        if(txtOgrenciTCNO.getText().matches("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d"))
+        {
+            //islem=false;
+            //hata="\n"+"Lüten TC kimlik numarasını 11 haneli ve doğru giriniz";
+            txtOgrenciTCNO.setBackground(Color.WHITE);
+           // txtOgrenciTCNO.setText("");
+        }else{ txtOgrenciTCNO.setBackground(Color.orange);}
+    }//GEN-LAST:event_txtOgrenciTCNOKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
