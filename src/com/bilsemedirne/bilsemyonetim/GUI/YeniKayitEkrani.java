@@ -814,6 +814,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         pnlAnneBilgileri.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 60, 30));
 
         rbgAnneHayattami.add(rbAnneEvet);
+        rbAnneEvet.setSelected(true);
         rbAnneEvet.setText("Evet");
         rbAnneEvet.setName("elleme"); // NOI18N
         rbAnneEvet.addItemListener(new java.awt.event.ItemListener()
@@ -917,6 +918,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         pnlBabaBilgileri.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 70, 30));
 
         rbgBabaHayattami.add(rbBabaEvet);
+        rbBabaEvet.setSelected(true);
         rbBabaEvet.setText("Evet");
         rbBabaEvet.setName("elleme"); // NOI18N
         rbBabaEvet.addItemListener(new java.awt.event.ItemListener()
@@ -1178,80 +1180,209 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         // TODO add your handling code here:
         boolean islem=true;
         hata="Hatalı Yapılan İşlemler";
-        
+
         // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
         if(!txtOgrenciTCNO.getText().trim().matches("\\d{11}"))
         {
             islem=false;
             hata+="\n"+"* Lüten TC kimlik numarasını 11 rakamdan oluşacak şekilde giriniz.";
-           
+
         }
         if(!txtOgrenciDogumTarihi.getText().matches("\\d{2}.\\d{2}.\\d{4}"))
         {
             islem=false;
             hata+="\n"+"* 01.01.2008 biçiminde tarih değeri giriniz";          
-        
+
         }
         if(!txtOgrenciDogumYeri.getText().matches("\\S+"))
         {
             islem=false;
             hata+="\n"+"* Lütfen Doğum Yeri bilgisini giriniz.";          
-        
+
         }
         //if(!(txtOgrenciAdi.getText().trim().matches("\\S+") || txtOgrenciAdi.getText().trim().matches("\\S+\\s+\\S+")))
-         if(!txtOgrenciAdi.getText().trim().matches("^[a-zA-Z ]+$"))
+         if(!txtOgrenciAdi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci Adını giriniz.";          
-        
+
         }
           if(!txtOgrenciSoyadi.getText().trim().matches("\\S+"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci soyadını giriniz.";          
-        
+
         }
         if(!txtOrgunEgitimSubesi.getText().trim().matches("\\S"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci Örgün eğitimdeki sınıf şubesi bilgisini doğru giriniz.";          
-        
+
         }
        // if(!(txtOrgunEgitimOgretmeni.getText().trim().matches("\\S+\\s+\\S+")||txtOrgunEgitimOgretmeni.getText().trim().matches("\\S+\\s+\\S+\\s+\\S+")||
         //        txtOrgunEgitimOgretmeni.getText().trim().matches("\\S+\\s+\\S+\\s+\\S+\\s+\\S+")))
-        if(!(txtOrgunEgitimOgretmeni.getText().trim().matches("^[a-zA-Z ]+$")))
+        if(!(txtOrgunEgitimOgretmeni.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci Örgün eğitimdeki öğretmen bilgisini giriniz.";          
-        
+
         }
         if(!txtOrgunEgitimNumarasi.getText().trim().matches("\\d+"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci Örgün okul numarası bilgisini doğru giriniz.";          
-        
+
         }
         if(!txtTanilamaYili.getText().trim().matches("\\d{4}"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci ilk BİLSEM tanılama yılı bilgisini doğru giriniz.";          
-        
+
         }
+        
         if(!txtBilsemBaslamaYili.getText().trim().matches("\\d{4}"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci ilk BİLSEM başlama yılı bilgisini doğru giriniz.";          
-        
+
         }
-         if(!(txtOgrenciAdres.getText().trim().length()>6))
+        if(!(txtOgrenciAdres.getText().trim().length()>6))
+        {
+        islem=false;
+        hata+="\n"+"* Lütfen öğrenci adres bilgisini doğru giriniz.";          
+
+        }
+        if(!(txtAnneAdi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
+        {
+        islem=false;
+        hata+="\n"+"* Lütfen Anne adı bilgisini doğru giriniz.";          
+
+        }
+        if(!(txtBabaAdi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
+        {
+        islem=false;
+        hata+="\n"+"* Lütfen Baba adı bilgisini doğru giriniz.";          
+
+        }
+        if(!(txtAnneSoyadi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
+        {
+        islem=false;
+        hata+="\n"+"* Lütfen Anne soyadı bilgisini doğru giriniz.";          
+
+        }
+        if(!(txtBabaSoyadi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
+        {
+        islem=false;
+        hata+="\n"+"* Lütfen Baba soyadı bilgisini doğru giriniz.";          
+
+        }
+        if(rbAnneEvet.isSelected())
+        {
+            if(!(txtAnneMeslegi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Anne meslek bilgisini doğru giriniz.";          
+
+            }
+              if(!(txtAnneEvAdresi.getText().trim().length()>6))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Anne ev adresi bilgisini doğru giriniz.";          
+
+            }
+             if(!(txtAnneCepTelefonu.getText().trim().matches("^[0][5]\\d{9}+$")))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Anne cep telefonu  bilgisini 05XXXXXXXXX şeklinde giriniz.";          
+
+            }
+            if(cbAnneOgrenimDurumu.getSelectedIndex()==-1)
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Anne Öğrenim durumu bilgisini doğru giriniz.";
+            }
+            
+        }
+        if(rbBabaEvet.isSelected())
+        {
+             if(!(txtBabaMeslegi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Baba meslek bilgisini doğru giriniz.";          
+
+            }
+              if(!(txtBabaEvAdresi.getText().trim().length()>6))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Baba ev adresi bilgisini doğru giriniz.";          
+
+            }
+            if(!(txtBabaCepTelefonu.getText().trim().matches("^[0][5]\\d{9}+$")))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Baba cep telefonu  bilgisini 05XXXXXXXXX şeklinde giriniz.";          
+
+            }
+            if(cbBabaOgrenimDurumu.getSelectedIndex()==-1)
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Baba Öğrenim durumu bilgisini doğru giriniz.";
+            }
+        }
+         
+         
+
+         if(!rbErkek.isSelected() && !rbKiz.isSelected())
          {
             islem=false;
-            hata+="\n"+"* Lütfen öğrenci adres bilgisini doğru giriniz.";          
-        
+            hata+="\n"+"* Lütfen öğrenci cinsiyet bilgisini seçiniz."; 
+         }
+          if(!rbBeraber.isSelected() && !rbAyri.isSelected())
+         {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci aile durum bilgisini seçiniz."; 
+         }
+          if(cbOgrenciVelisiKim.getSelectedIndex()==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrenci velisinin kim olduğunu seçiniz."; 
+          }
+           if(cbOrgunEgitimOkulu.getSelectedIndex()==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği okul bilgisini seçiniz."; 
+          }
+           if(cbOgrenciSinifSeviyesi.getSelectedIndex()==0)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği sınıf seviyesi bilgisini  seçiniz."; 
+          }
+           if(cbTanilamaIli.getSelectedIndex()==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin BİLSEM tanımlamasının yapıldığı İl bilgisini  seçiniz."; 
+          }
+           if(cbBilsemBaslamaIli.getSelectedIndex()==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin ilk BİLSEM'e başladığı İl bilgisini  seçiniz."; 
+          }
+          if(cbNakilGelinenBilsem.getSelectedIndex()==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin nakil geldiği BİLSEM bilgisini seçiniz."; 
+          }
+        if(!(chkbGenel.isSelected() && chkbGorsel.isSelected() && chkbMuzik.isSelected()))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz."; 
         }
-        
+
         if(islem==false)
-        {JOptionPane.showMessageDialog(rootPane, hata,"Hata",JOptionPane.ERROR_MESSAGE);}
+        {
+            JOptionPane.showMessageDialog(rootPane, hata,"Hata",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
       
         // </editor-fold>
         
@@ -1262,20 +1393,20 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         SimpleDateFormat df=new SimpleDateFormat("dd.MM.yyyy",Locale.ROOT);       
         try
         {           
-            ogrDogumTarihi=df.parse(txtOgrenciTCNO.getText());                 
+            ogrDogumTarihi=df.parse(txtOgrenciDogumTarihi.getText());                 
 
         } 
         catch (ParseException e) { e.printStackTrace();}
-        ogrDogumYeri=txtOgrenciDogumYeri.getText();
-        ogrAdi=txtOgrenciAdi.getText();
-        ogrSoyadi=txtOgrenciSoyadi.getText();
-        ogrOrgunEgitimSubesi=txtOrgunEgitimSubesi.getText();
-        ogrOrgunEgitimSinifOgretmeni=txtOrgunEgitimOgretmeni.getText();
+        ogrDogumYeri=txtOgrenciDogumYeri.getText().trim().toUpperCase();
+        ogrAdi=txtOgrenciAdi.getText().trim().toUpperCase();
+        ogrSoyadi=txtOgrenciSoyadi.getText().trim().toUpperCase();
+        ogrOrgunEgitimSubesi=txtOrgunEgitimSubesi.getText().trim().toUpperCase();
+        ogrOrgunEgitimSinifOgretmeni=txtOrgunEgitimOgretmeni.getText().trim().toUpperCase();
         ogrOrgunEgitimNo=txtOrgunEgitimNumarasi.getText();
         ilkBilsemTanilamaYili=Integer.parseInt(txtTanilamaYili.getText());
         ilkBilsemBaslamaYili=Integer.parseInt(txtBilsemBaslamaYili.getText());
-        ogrSurekliIlac=txtSurekliIlac.getText();
-        ogrSurekliHastalik=txtSurekliHastalik.getText();
+        ogrSurekliIlac=txtSurekliIlac.getText().trim().toUpperCase();
+        ogrSurekliHastalik=txtSurekliHastalik.getText().trim().toUpperCase();
         
         
         
@@ -1284,29 +1415,29 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
        // </editor-fold>
        
         // <editor-fold defaultstate="collapsed" desc="Anne Değişkenleri doldurma">
-        anneAd=txtAnneAdi.getText();
-        anneSoyad=txtAnneSoyadi.getText();
+        anneAd=txtAnneAdi.getText().trim().toUpperCase();
+        anneSoyad=txtAnneSoyadi.getText().trim().toUpperCase();
         anneCeptelefon=txtAnneCepTelefonu.getText();
-        anneEposta=txtAnneEposta.getText();
-        anneEvAdresi=txtAnneEvAdresi.getText();
+        anneEposta=txtAnneEposta.getText().trim().toUpperCase();
+        anneEvAdresi=txtAnneEvAdresi.getText().trim().toUpperCase();
         anneEvTelefon=txtAnneEvTelefonu.getText();
         anneIsTelefon=txtAnneIsTelefonu.getText();
-        anneMeslegi=txtAnneMeslegi.getText();
-        anneIsAdresi=txtAnneIsAdresi.getText();
+        anneMeslegi=txtAnneMeslegi.getText().trim().toUpperCase();
+        anneIsAdresi=txtAnneIsAdresi.getText().trim().toUpperCase();
        
         
         // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Baba Değişkenleri doldurma">
-        babaAd=txtBabaAdi.getText();
-        babaSoyad=txtBabaSoyadi.getText();
+        babaAd=txtBabaAdi.getText().trim().toUpperCase();
+        babaSoyad=txtBabaSoyadi.getText().trim().toUpperCase();
         babaCeptelefon=txtBabaCepTelefonu.getText();
-        babaEposta=txtBabaEposta.getText();
-        babaEvAdresi=txtBabaEvAdresi.getText();
+        babaEposta=txtBabaEposta.getText().trim().toUpperCase();
+        babaEvAdresi=txtBabaEvAdresi.getText().trim().toUpperCase();
         babaEvTelefon=txtBabaEvTelefonu.getText();
         babaIsTelefon=txtBabaIsTelefonu.getText();
-        babaMeslegi=txtBabaMeslegi.getText();
-        babaIsAdresi=txtBabaIsAdresi.getText();
+        babaMeslegi=txtBabaMeslegi.getText().trim().toUpperCase();
+        babaIsAdresi=txtBabaIsAdresi.getText().trim().toUpperCase();
         // </editor-fold>
         
         

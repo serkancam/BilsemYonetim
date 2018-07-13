@@ -1035,6 +1035,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="rbgAnneHayattami"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Evet"/>
                 <Property name="name" type="java.lang.String" value="elleme" noResource="true"/>
               </Properties>
@@ -1314,6 +1315,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="rbgBabaHayattami"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Evet"/>
                 <Property name="name" type="java.lang.String" value="elleme" noResource="true"/>
               </Properties>
