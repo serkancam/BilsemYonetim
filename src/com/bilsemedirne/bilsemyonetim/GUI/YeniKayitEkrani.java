@@ -814,7 +814,6 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         pnlAnneBilgileri.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 60, 30));
 
         rbgAnneHayattami.add(rbAnneEvet);
-        rbAnneEvet.setSelected(true);
         rbAnneEvet.setText("Evet");
         rbAnneEvet.setName("elleme"); // NOI18N
         rbAnneEvet.addItemListener(new java.awt.event.ItemListener()
@@ -832,6 +831,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         txtAnneIsAdresi.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         txtAnneIsAdresi.setLineWrap(true);
         txtAnneIsAdresi.setRows(5);
+        txtAnneIsAdresi.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtAnneIsAdresi.setName("gizle"); // NOI18N
         jScrollPane3.setViewportView(txtAnneIsAdresi);
 
@@ -918,7 +918,6 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         pnlBabaBilgileri.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 70, 30));
 
         rbgBabaHayattami.add(rbBabaEvet);
-        rbBabaEvet.setSelected(true);
         rbBabaEvet.setText("Evet");
         rbBabaEvet.setName("elleme"); // NOI18N
         rbBabaEvet.addItemListener(new java.awt.event.ItemListener()
@@ -1076,9 +1075,10 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
        if(cbOgrenciVelisiKim.getSelectedIndex()>0)
        {
         secilenVelitipi=((Cift)cbOgrenciVelisiKim.getSelectedItem()).key;
-           System.out.println(secilenVelitipi);
+       
         
        }
+        System.out.println(((Cift)cbOgrenciVelisiKim.getSelectedItem()).key);
     }//GEN-LAST:event_cbOgrenciVelisiKimActionPerformed
 
     private void cbOrgunEgitimOkulİlcesiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrgunEgitimOkulİlcesiActionPerformed
@@ -1179,6 +1179,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     {//GEN-HEADEREND:event_btnKaydetActionPerformed
         // TODO add your handling code here:
         boolean islem=true;
+        
         hata="Hatalı Yapılan İşlemler";
 
         // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
@@ -1296,7 +1297,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 hata+="\n"+"* Lütfen Anne cep telefonu  bilgisini 05XXXXXXXXX şeklinde giriniz.";          
 
             }
-            if(cbAnneOgrenimDurumu.getSelectedIndex()==-1)
+            if(((Cift)cbAnneOgrenimDurumu.getSelectedItem()).key==-1)
             {
                 islem=false;
                 hata+="\n"+"* Lütfen Anne Öğrenim durumu bilgisini doğru giriniz.";
@@ -1323,7 +1324,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 hata+="\n"+"* Lütfen Baba cep telefonu  bilgisini 05XXXXXXXXX şeklinde giriniz.";          
 
             }
-            if(cbBabaOgrenimDurumu.getSelectedIndex()==-1)
+            if(((Cift)cbBabaOgrenimDurumu.getSelectedItem()).key==-1)
             {
                 islem=false;
                 hata+="\n"+"* Lütfen Baba Öğrenim durumu bilgisini doğru giriniz.";
@@ -1342,12 +1343,12 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             islem=false;
             hata+="\n"+"* Lütfen öğrenci aile durum bilgisini seçiniz."; 
          }
-          if(cbOgrenciVelisiKim.getSelectedIndex()==-1)
+          if(((Cift)cbOgrenciVelisiKim.getSelectedItem()).key==-1)
           {
               islem=false;
             hata+="\n"+"* Lütfen öğrenci velisinin kim olduğunu seçiniz."; 
           }
-           if(cbOrgunEgitimOkulu.getSelectedIndex()==-1)
+           if(((Cift)cbOrgunEgitimOkulu.getSelectedItem()).key==-1)
           {
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği okul bilgisini seçiniz."; 
@@ -1357,22 +1358,22 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği sınıf seviyesi bilgisini  seçiniz."; 
           }
-           if(cbTanilamaIli.getSelectedIndex()==-1)
+           if(((Cift)cbTanilamaIli.getSelectedItem()).key==-1)
           {
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin BİLSEM tanımlamasının yapıldığı İl bilgisini  seçiniz."; 
           }
-           if(cbBilsemBaslamaIli.getSelectedIndex()==-1)
+           if(((Cift)cbBilsemBaslamaIli.getSelectedItem()).key==-1)
           {
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin ilk BİLSEM'e başladığı İl bilgisini  seçiniz."; 
           }
-          if(cbNakilGelinenBilsem.getSelectedIndex()==-1)
+          if(((Cift)cbNakilGelinenBilsem.getSelectedItem()).key==-1)
           {
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin nakil geldiği BİLSEM bilgisini seçiniz."; 
           }
-        if(!(chkbGenel.isSelected() && chkbGorsel.isSelected() && chkbMuzik.isSelected()))
+        if(!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected()))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz."; 
@@ -1439,6 +1440,22 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         babaMeslegi=txtBabaMeslegi.getText().trim().toUpperCase();
         babaIsAdresi=txtBabaIsAdresi.getText().trim().toUpperCase();
         // </editor-fold>
+        
+         // <editor-fold defaultstate="collapsed" desc="Kayıt ve Pdf'ye yazdırma İşlemleri">
+        if(islem==true)
+        {
+         String[] choices = { "Bilgileri Kaydet ve Yazdır", "İptal"};
+        int result = JOptionPane.showOptionDialog(this,
+        "Bilgileriniz doğruysa Kaydet Butonuna Basınız", "Dikkat",
+        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, 
+        null, choices, choices[0]);  
+            System.out.println(result);
+            
+        }
+        Ogrenci ogrenci=new Ogrenci();
+        Veli baba=new Veli();
+        Veli anne=new Veli();
+         // </editor-fold>
         
         
         

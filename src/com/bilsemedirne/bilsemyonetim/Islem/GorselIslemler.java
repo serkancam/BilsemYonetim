@@ -6,7 +6,11 @@
 package com.bilsemedirne.bilsemyonetim.Islem;
 
 import java.awt.Component;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -21,7 +25,24 @@ public class GorselIslemler
         {
               if(kmp.getName().equalsIgnoreCase("gizle"))
               {
-                  kmp.setEnabled(durum);
+                   
+                  if(kmp instanceof JTextArea)
+                  {
+                      
+                      ((JTextArea) kmp).setEnabled(durum);
+                      ((JTextArea) kmp).setEditable(durum);
+                  }
+                                            
+                  if(kmp instanceof JTextField)
+                  {
+                      ((JTextField) kmp).setText("");
+                  }
+                  if(kmp instanceof JComboBox)
+                  {
+                      ((JComboBox) kmp).setSelectedIndex(0);
+                      
+                  }
+                 kmp.setEnabled(durum);
               }
            
         }

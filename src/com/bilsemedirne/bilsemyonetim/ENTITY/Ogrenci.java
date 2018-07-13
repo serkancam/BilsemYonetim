@@ -39,6 +39,41 @@ public class Ogrenci
     private String orgunEgitimSubesi;
     private Okul orgunEgitimOkulu;
     private Ogretmen danismanOgretmen;
+
+    public Ogrenci()
+    {
+    }
+
+    
+    
+    public Ogrenci(String ogrenciTCNO, String ogrenciAdi, String ogrenciSoyadi, short ogrenciBilsemNo, String dogumYeri, Date dogumTarihi, int tanimlamaYili, Il tanimlananIl, int ilkBilsemBaslamaYili, Il ilkBilsemBaslamaIli, byte cinsiyet, String orgunOgretimdekiOgretmenAdi, String surekliHastalik, String surekliKullanilanIlac, Bilsemler nakilGeldigiBilsem, String adres, Date kayitTarihi, Veli velayet, String fotograf, byte aileDurumu, String orgunEgitimokulNo, int orgunEgitimSinifi, String orgunEgitimSubesi, Okul orgunEgitimOkulu, Ogretmen danismanOgretmen)
+    {
+        this.ogrenciTCNO = ogrenciTCNO;
+        this.ogrenciAdi = ogrenciAdi;
+        this.ogrenciSoyadi = ogrenciSoyadi;
+        this.ogrenciBilsemNo = ogrenciBilsemNo;
+        this.dogumYeri = dogumYeri;
+        this.dogumTarihi = dogumTarihi;
+        this.tanimlamaYili = tanimlamaYili;
+        this.tanimlananIl = tanimlananIl;
+        this.ilkBilsemBaslamaYili = ilkBilsemBaslamaYili;
+        this.ilkBilsemBaslamaIli = ilkBilsemBaslamaIli;
+        this.cinsiyet = cinsiyet;
+        this.orgunOgretimdekiOgretmenAdi = orgunOgretimdekiOgretmenAdi;
+        this.surekliHastalik = surekliHastalik;
+        this.surekliKullanilanIlac = surekliKullanilanIlac;
+        this.nakilGeldigiBilsem = nakilGeldigiBilsem;
+        this.adres = adres;
+        this.kayitTarihi = kayitTarihi;
+        this.velayet = velayet;
+        this.fotograf = fotograf;
+        this.aileDurumu = aileDurumu;
+        this.orgunEgitimokulNo = orgunEgitimokulNo;
+        this.orgunEgitimSinifi = orgunEgitimSinifi;
+        this.orgunEgitimSubesi = orgunEgitimSubesi;
+        this.orgunEgitimOkulu = orgunEgitimOkulu;
+        this.danismanOgretmen = danismanOgretmen;
+    }
     
     
     public int getIlkBilsemBaslamaYili()

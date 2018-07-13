@@ -25,6 +25,28 @@ public class Veli
     private VeliTipi veliTipi;
     private String meslegi;
 
+    public Veli()
+    {
+    }
+
+    public Veli(int veliKodu, String veliAdi, String veliSoyadi, String evAdresi, String isAdresi, String evTelefonu, String isTelefonu, String cepTelefonu, String epostaAdresi, OgrenimDurumu ogrenciDurumu, byte hayattami, VeliTipi veliTipi, String meslegi)
+    {
+        this.veliKodu = veliKodu;
+        this.veliAdi = veliAdi;
+        this.veliSoyadi = veliSoyadi;
+        this.evAdresi = evAdresi;
+        this.isAdresi = isAdresi;
+        this.evTelefonu = evTelefonu;
+        this.isTelefonu = isTelefonu;
+        this.cepTelefonu = cepTelefonu;
+        this.epostaAdresi = epostaAdresi;
+        this.ogrenciDurumu = ogrenciDurumu;
+        this.hayattami = hayattami;
+        this.veliTipi = veliTipi;
+        this.meslegi = meslegi;
+    }
+
+    
     public String getMeslegi()
     {
         return meslegi;
