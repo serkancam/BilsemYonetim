@@ -1455,6 +1455,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         Ogrenci ogrenci=new Ogrenci();
         Veli baba=new Veli();
         Veli anne=new Veli();
+        OgrenciDAO islemler=new OgrenciDAO()();
          // </editor-fold>
         
         
