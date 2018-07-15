@@ -18,6 +18,17 @@ public class Ogretmen
     private String telefon;
     private Brans bransKodu;
 
+    public Ogretmen()
+    {
+    }
+
+    public Ogretmen(String TC)
+    {
+        this.TC = TC;
+    }
+    
+    
+
     public String getTC() {
         return TC;
     }
@@ -64,6 +75,12 @@ public class Ogretmen
 
     public void setBransKodu(Brans bransKodu) {
         this.bransKodu = bransKodu;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Ogretmen{" + "TC=" + TC + ", ogretmenAdi=" + ogretmenAdi + ", ogretmenSoyadi=" + ogretmenSoyadi + ", adres=" + adres + ", telefon=" + telefon + ", bransKodu=" + bransKodu + '}';
     }
     
     

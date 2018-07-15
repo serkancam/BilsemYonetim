@@ -13,7 +13,18 @@ public class Bilsemler
 {
     private int bilsemKodu;
     private String bilsemAdi;
-    private Il ilKodu;   
+    private Il ilKodu;
+
+    public Bilsemler()
+    {
+    }
+
+    public Bilsemler(int bilsemKodu)
+    {
+        this.bilsemKodu = bilsemKodu;
+    }
+    
+    
 
     public int getBilsemKodu() 
     {
@@ -44,6 +55,13 @@ public class Bilsemler
     {
         this.ilKodu = ilKodu;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Bilsemler{" + "bilsemKodu=" + bilsemKodu + ", bilsemAdi=" + bilsemAdi + ", ilKodu=" + ilKodu + '}';
+    }
+    
     
     
     

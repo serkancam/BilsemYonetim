@@ -78,7 +78,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <PropertyBean type="org.jdesktop.swingx.border.IconBorder">
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/bilsem-loo (1200x1066).jpg"/>
+              <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/logo-buyuk.png"/>
             </Property>
           </PropertyBean>
         </Property>

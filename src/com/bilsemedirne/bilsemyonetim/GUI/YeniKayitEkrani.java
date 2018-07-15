@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +43,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
    
 
     Ogrenci ogrenci=null;
-    String fotoYolu,hata="";
+    String fotoYolu=null;
+    String hata="";
     Veli anne=null,baba=null;
  
     byte ogrCinsiyet=-1,ogrAileDurumu=-1,anneHayattami=-1,babaHayattami=-1;
@@ -51,7 +53,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     int secilenVelitipi=-1,orgunOkulIlcesi=-1,orgunOkul=-1,orgunEgitimSinifSeviyesi=-1,
     bilsemTanimlamaIli=-1,bilsemBaslamaIli=-1,nakilGeldigiBilsem=-1,anneOgrenimDurumu=-1,babaOgrenimDurumu=-1,
      ilkBilsemTanilamaYili=-1,ilkBilsemBaslamaYili=-1;
-    String ogrTCNO="",ogrDogumYeri="",ogrAdi="",ogrSoyadi="",ogrOrgunEgitimSubesi="",ogrOrgunEgitimSinifOgretmeni="",
+    String ogrTCNO="",ogrDogumYeri="",ogrAdi="",ogrSoyadi="",ogrOrgunEgitimSubesi="",ogrOrgunEgitimSinifOgretmeni="",ogrAdresi="",
             ogrOrgunEgitimNo="",ogrSurekliIlac="",ogrSurekliHastalik="",anneAd="",anneSoyad="",anneEposta="",anneEvTelefon="",
             anneIsTelefon="",anneCeptelefon="",anneMeslegi="",anneEvAdresi="",anneIsAdresi="",babaAd="",babaSoyad="",babaEposta="",babaEvTelefon="",
             babaIsTelefon="",babaIsAdresi="",babaCeptelefon="",babaMeslegi="",babaEvAdresi="";
@@ -100,6 +102,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 			    	System.out.println("Going to wait()");
 			    	this.wait();
 			    }
+                             FotografiPaneleBas();
 			 }
 			 catch(Exception ex)
                          {
@@ -112,6 +115,25 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
      }
     
 }  
+    
+    
+    public void FotografiPaneleBas()
+    {
+        if(fotoYolu!=null)
+        {
+            try 
+            {
+                BufferedImage  img = ImageIO.read(new File(fotoYolu));
+                Graphics g=pnlFotograf.getGraphics();
+
+                g.drawImage(img, 0, 0, pnlFotograf.getWidth(), pnlFotograf.getHeight()  , 0, 0, img.getWidth(), img.getHeight(), null);
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Combobox ların dolurulması">
@@ -253,12 +275,10 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         txtSurekliIlac = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtTanilamaYili = new javax.swing.JFormattedTextField();
         jLabel14 = new javax.swing.JLabel();
         cbBilsemBaslamaIli = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        txtBilsemBaslamaYili = new javax.swing.JFormattedTextField();
         cbTanilamaIli = new javax.swing.JComboBox<>();
         cbNakilGelinenBilsem = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
@@ -286,6 +306,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         btnKaydet = new javax.swing.JButton();
         txtOgrenciAdi = new javax.swing.JTextField();
         txtOgrenciDogumTarihi = new javax.swing.JFormattedTextField();
+        txtTanilamaYili = new javax.swing.JTextField();
+        txtBilsemBaslamaYili = new javax.swing.JTextField();
         pnlVeliBilgileri = new javax.swing.JPanel();
         pnlAnneBilgileri = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -479,17 +501,6 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         jLabel13.setText("<html>Bilsem Tanımlama Yılı</html>");
         pnlOgrenci.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, 100, 30));
 
-        txtTanilamaYili.setColumns(4);
-        try
-        {
-            txtTanilamaYili.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
-        } catch (java.text.ParseException ex)
-        {
-            ex.printStackTrace();
-        }
-        txtTanilamaYili.setText("2018");
-        pnlOgrenci.add(txtTanilamaYili, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 120, 30));
-
         jLabel14.setText("<html>Bilseme Tanımlama İli</html>");
         pnlOgrenci.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 30, 110, 30));
 
@@ -509,16 +520,6 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 
         jLabel16.setText("<html>Bilsem Başlama İli</html>");
         pnlOgrenci.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 70, 120, 30));
-
-        try
-        {
-            txtBilsemBaslamaYili.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
-        } catch (java.text.ParseException ex)
-        {
-            ex.printStackTrace();
-        }
-        txtBilsemBaslamaYili.setText("2018");
-        pnlOgrenci.add(txtBilsemBaslamaYili, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 120, 30));
 
         cbTanilamaIli.setModel(new javax.swing.DefaultComboBoxModel<>(new Cift[] { new Cift(-1,"İl Seç")}));
         cbTanilamaIli.addActionListener(new java.awt.event.ActionListener()
@@ -727,6 +728,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         txtOgrenciDogumTarihi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtOgrenciDogumTarihi.setPreferredSize(new java.awt.Dimension(116, 21));
         pnlOgrenci.add(txtOgrenciDogumTarihi, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 180, 30));
+        pnlOgrenci.add(txtTanilamaYili, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 120, 30));
+        pnlOgrenci.add(txtBilsemBaslamaYili, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 120, 30));
 
         getContentPane().add(pnlOgrenci);
 
@@ -1056,17 +1059,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
        // fotoYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNo.getText()+".jpg";
         fotoYolu="G:/foto/"+txtOgrenciTCNO.getText()+".jpg";
         Highgui.imwrite(fotoYolu, frame);
-        try 
-        {
-            BufferedImage  img = ImageIO.read(new File(fotoYolu));
-            Graphics g=pnlFotograf.getGraphics();
-
-            g.drawImage(img, 0, 0, pnlFotograf.getWidth(), pnlFotograf.getHeight()  , 0, 0, img.getWidth(), img.getHeight(), null);
-        } 
-        catch (IOException ex) 
-        {
-            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FotografiPaneleBas();
+        
     }//GEN-LAST:event_btnFotograCekActionPerformed
 
     private void cbOgrenciVelisiKimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOgrenciVelisiKimActionPerformed
@@ -1180,6 +1174,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         // TODO add your handling code here:
         boolean islem=true;
         
+        Locale trlocale= Locale.forLanguageTag("tr-TR");
+        
         hata="Hatalı Yapılan İşlemler";
 
         // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
@@ -1234,6 +1230,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             hata+="\n"+"* Lütfen öğrenci Örgün okul numarası bilgisini doğru giriniz.";          
 
         }
+        
         if(!txtTanilamaYili.getText().trim().matches("\\d{4}"))
         {
             islem=false;
@@ -1253,6 +1250,70 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         hata+="\n"+"* Lütfen öğrenci adres bilgisini doğru giriniz.";          
 
         }
+        
+        if(!rbErkek.isSelected() && !rbKiz.isSelected())
+         {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci cinsiyet bilgisini seçiniz."; 
+         }
+          if(!rbBeraber.isSelected() && !rbAyri.isSelected())
+         {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrenci aile durum bilgisini seçiniz."; 
+         }
+          if(((Cift)cbOgrenciVelisiKim.getSelectedItem()).key==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrenci velisinin kim olduğunu seçiniz."; 
+          }
+           if(((Cift)cbOrgunEgitimOkulu.getSelectedItem()).key==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği okul bilgisini seçiniz."; 
+          }
+           if(cbOgrenciSinifSeviyesi.getSelectedIndex()==0)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği sınıf seviyesi bilgisini  seçiniz."; 
+          }
+           if(((Cift)cbTanilamaIli.getSelectedItem()).key==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin BİLSEM tanımlamasının yapıldığı İl bilgisini  seçiniz."; 
+          }
+           if(((Cift)cbBilsemBaslamaIli.getSelectedItem()).key==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin ilk BİLSEM'e başladığı İl bilgisini  seçiniz."; 
+          }
+          if(((Cift)cbNakilGelinenBilsem.getSelectedItem()).key==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin nakil geldiği BİLSEM bilgisini seçiniz."; 
+          }
+        if(!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected()))
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz."; 
+        }
+        if(fotoYolu==null)
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen Fotoğraf çek düğmesine basarak öğrencinin fotoğrafını çekiniz.";
+        }
+       
+        if(!rbAnneEvet.isSelected() && !rbAnneHayir.isSelected())
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen Anne Hayatta mı? bilgisini seçiniz."; 
+        }
+        
+        if(!rbBabaEvet.isSelected() && !rbBabaHayir.isSelected())
+        {
+            islem=false;
+            hata+="\n"+"* Lütfen Baba Hayatta mı? bilgisini seçiniz."; 
+        }
+        
         if(!(txtAnneAdi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$")))
         {
         islem=false;
@@ -1330,58 +1391,12 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 hata+="\n"+"* Lütfen Baba Öğrenim durumu bilgisini doğru giriniz.";
             }
         }
-         
-         
-
-         if(!rbErkek.isSelected() && !rbKiz.isSelected())
-         {
-            islem=false;
-            hata+="\n"+"* Lütfen öğrenci cinsiyet bilgisini seçiniz."; 
-         }
-          if(!rbBeraber.isSelected() && !rbAyri.isSelected())
-         {
-            islem=false;
-            hata+="\n"+"* Lütfen öğrenci aile durum bilgisini seçiniz."; 
-         }
-          if(((Cift)cbOgrenciVelisiKim.getSelectedItem()).key==-1)
-          {
-              islem=false;
-            hata+="\n"+"* Lütfen öğrenci velisinin kim olduğunu seçiniz."; 
-          }
-           if(((Cift)cbOrgunEgitimOkulu.getSelectedItem()).key==-1)
-          {
-              islem=false;
-            hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği okul bilgisini seçiniz."; 
-          }
-           if(cbOgrenciSinifSeviyesi.getSelectedIndex()==0)
-          {
-              islem=false;
-            hata+="\n"+"* Lütfen öğrencinin örgün eğitimde devam ettiği sınıf seviyesi bilgisini  seçiniz."; 
-          }
-           if(((Cift)cbTanilamaIli.getSelectedItem()).key==-1)
-          {
-              islem=false;
-            hata+="\n"+"* Lütfen öğrencinin BİLSEM tanımlamasının yapıldığı İl bilgisini  seçiniz."; 
-          }
-           if(((Cift)cbBilsemBaslamaIli.getSelectedItem()).key==-1)
-          {
-              islem=false;
-            hata+="\n"+"* Lütfen öğrencinin ilk BİLSEM'e başladığı İl bilgisini  seçiniz."; 
-          }
-          if(((Cift)cbNakilGelinenBilsem.getSelectedItem()).key==-1)
-          {
-              islem=false;
-            hata+="\n"+"* Lütfen öğrencinin nakil geldiği BİLSEM bilgisini seçiniz."; 
-          }
-        if(!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected()))
-        {
-            islem=false;
-            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz."; 
-        }
+          
 
         if(islem==false)
         {
             JOptionPane.showMessageDialog(rootPane, hata,"Hata",JOptionPane.ERROR_MESSAGE);
+            FotografiPaneleBas();
             return;
         }
       
@@ -1398,16 +1413,17 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 
         } 
         catch (ParseException e) { e.printStackTrace();}
-        ogrDogumYeri=txtOgrenciDogumYeri.getText().trim().toUpperCase();
-        ogrAdi=txtOgrenciAdi.getText().trim().toUpperCase();
-        ogrSoyadi=txtOgrenciSoyadi.getText().trim().toUpperCase();
-        ogrOrgunEgitimSubesi=txtOrgunEgitimSubesi.getText().trim().toUpperCase();
-        ogrOrgunEgitimSinifOgretmeni=txtOrgunEgitimOgretmeni.getText().trim().toUpperCase();
+        ogrDogumYeri=txtOgrenciDogumYeri.getText().trim().toUpperCase(trlocale);
+        ogrAdi=txtOgrenciAdi.getText().trim().toUpperCase(trlocale);
+        ogrSoyadi=txtOgrenciSoyadi.getText().trim().toUpperCase(trlocale);
+        ogrOrgunEgitimSubesi=txtOrgunEgitimSubesi.getText().trim().toUpperCase(trlocale);
+        ogrOrgunEgitimSinifOgretmeni=txtOrgunEgitimOgretmeni.getText().trim().toUpperCase(trlocale);
         ogrOrgunEgitimNo=txtOrgunEgitimNumarasi.getText();
-        ilkBilsemTanilamaYili=Integer.parseInt(txtTanilamaYili.getText());
-        ilkBilsemBaslamaYili=Integer.parseInt(txtBilsemBaslamaYili.getText());
-        ogrSurekliIlac=txtSurekliIlac.getText().trim().toUpperCase();
-        ogrSurekliHastalik=txtSurekliHastalik.getText().trim().toUpperCase();
+        ilkBilsemTanilamaYili=Integer.parseInt(txtTanilamaYili.getText().trim());
+        ilkBilsemBaslamaYili=Integer.parseInt(txtBilsemBaslamaYili.getText().trim());
+        ogrSurekliIlac=txtSurekliIlac.getText().trim().toUpperCase(trlocale);
+        ogrSurekliHastalik=txtSurekliHastalik.getText().trim().toUpperCase(trlocale);
+        ogrAdresi=txtOgrenciAdres.getText().trim().toUpperCase(trlocale);
         
         
         
@@ -1416,32 +1432,66 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
        // </editor-fold>
        
         // <editor-fold defaultstate="collapsed" desc="Anne Değişkenleri doldurma">
-        anneAd=txtAnneAdi.getText().trim().toUpperCase();
-        anneSoyad=txtAnneSoyadi.getText().trim().toUpperCase();
+        anneAd=txtAnneAdi.getText().trim().toUpperCase(trlocale);
+        anneSoyad=txtAnneSoyadi.getText().trim().toUpperCase(trlocale);
         anneCeptelefon=txtAnneCepTelefonu.getText();
-        anneEposta=txtAnneEposta.getText().trim().toUpperCase();
-        anneEvAdresi=txtAnneEvAdresi.getText().trim().toUpperCase();
+        anneEposta=txtAnneEposta.getText().trim().toUpperCase(trlocale);
+        anneEvAdresi=txtAnneEvAdresi.getText().trim().toUpperCase(trlocale);
         anneEvTelefon=txtAnneEvTelefonu.getText();
         anneIsTelefon=txtAnneIsTelefonu.getText();
-        anneMeslegi=txtAnneMeslegi.getText().trim().toUpperCase();
-        anneIsAdresi=txtAnneIsAdresi.getText().trim().toUpperCase();
+        anneMeslegi=txtAnneMeslegi.getText().trim().toUpperCase(trlocale);
+        anneIsAdresi=txtAnneIsAdresi.getText().trim().toUpperCase(trlocale);
        
         
         // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Baba Değişkenleri doldurma">
-        babaAd=txtBabaAdi.getText().trim().toUpperCase();
-        babaSoyad=txtBabaSoyadi.getText().trim().toUpperCase();
+        babaAd=txtBabaAdi.getText().trim().toUpperCase(trlocale);
+        babaSoyad=txtBabaSoyadi.getText().trim().toUpperCase(trlocale);
         babaCeptelefon=txtBabaCepTelefonu.getText();
-        babaEposta=txtBabaEposta.getText().trim().toUpperCase();
-        babaEvAdresi=txtBabaEvAdresi.getText().trim().toUpperCase();
+        babaEposta=txtBabaEposta.getText().trim().toUpperCase(trlocale);
+        babaEvAdresi=txtBabaEvAdresi.getText().trim().toUpperCase(trlocale);
         babaEvTelefon=txtBabaEvTelefonu.getText();
         babaIsTelefon=txtBabaIsTelefonu.getText();
-        babaMeslegi=txtBabaMeslegi.getText().trim().toUpperCase();
-        babaIsAdresi=txtBabaIsAdresi.getText().trim().toUpperCase();
+        babaMeslegi=txtBabaMeslegi.getText().trim().toUpperCase(trlocale);
+        babaIsAdresi=txtBabaIsAdresi.getText().trim().toUpperCase(trlocale);
         // </editor-fold>
         
-         // <editor-fold defaultstate="collapsed" desc="Kayıt ve Pdf'ye yazdırma İşlemleri">
+        // <editor-fold defaultstate="collapsed" desc="Sınıfları başlatma">
+        Ogrenci ogrenci=new Ogrenci();        
+        Veli baba=new Veli();
+        Veli anne=new Veli();
+        //öğrenci değerleri sınıfa aktarılıyor
+        ogrenci.setAdres(ogrAdresi);
+        ogrenci.setAileDurumu(ogrAileDurumu);
+        ogrenci.setCinsiyet(ogrCinsiyet);
+        ogrenci.setDanismanOgretmen(new Ogretmen());
+        ogrenci.setDogumTarihi(ogrDogumTarihi);
+        ogrenci.setDogumYeri(ogrDogumYeri);
+        ogrenci.setFotograf(fotoYolu);
+        ogrenci.setIlkBilsemBaslamaIli(new Il(bilsemBaslamaIli));
+        ogrenci.setIlkBilsemBaslamaYili(ilkBilsemBaslamaYili);
+        ogrenci.setKayitTarihi(ogrKayitTarihi);
+        ogrenci.setNakilGeldigiBilsem(new Bilsemler(nakilGeldigiBilsem));
+        ogrenci.setOgrenciAdi(ogrAdi);
+        ogrenci.setOgrenciBilsemNo((short)-1);
+        ogrenci.setOgrenciSoyadi(ogrSoyadi);
+        ogrenci.setOgrenciTCNO(ogrTCNO);
+        ogrenci.setOrgunEgitimOkulu(new Okul(orgunOkul));
+        ogrenci.setOrgunEgitimSinifi(orgunEgitimSinifSeviyesi);
+        ogrenci.setOrgunEgitimSubesi(ogrOrgunEgitimSubesi);
+        ogrenci.setOrgunEgitimokulNo(ogrOrgunEgitimNo);
+        ogrenci.setOrgunOgretimdekiOgretmenAdi(ogrOrgunEgitimSinifOgretmeni);
+        ogrenci.setSurekliHastalik(ogrSurekliHastalik);
+        ogrenci.setSurekliKullanilanIlac(ogrSurekliIlac);
+        ogrenci.setTanimlamaYili(ilkBilsemTanilamaYili);
+        ogrenci.setTanimlananIl(new Il(bilsemTanimlamaIli));
+        ogrenci.setVelayet(new VeliTipi(secilenVelitipi));
+        
+        System.out.println(ogrenci.toString());
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc="Kayıt ve Pdf'ye yazdırma İşlemleri">
         if(islem==true)
         {
          String[] choices = { "Bilgileri Kaydet ve Yazdır", "İptal"};
@@ -1449,15 +1499,22 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         "Bilgileriniz doğruysa Kaydet Butonuna Basınız", "Dikkat",
         JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, 
         null, choices, choices[0]);  
-            System.out.println(result);
+        
+          if(result==1){return;}
+              
             
         }
-        Ogrenci ogrenci=new Ogrenci();
-        Veli baba=new Veli();
-        Veli anne=new Veli();
-        OgrenciDAO islemler=new OgrenciDAO();
-         // </editor-fold>
         
+        OgrenciDAO islemler=new OgrenciDAO();
+        
+            Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba); 
+            if(ilkKayit>0)
+            {
+                System.out.println("Kayıt işlemi başarılı");   
+            }
+             
+       
+        // </editor-fold>
         
         
     }//GEN-LAST:event_btnKaydetActionPerformed
@@ -1570,7 +1627,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         }else{ txtOgrenciTCNO.setBackground(Color.orange);}
     }//GEN-LAST:event_txtOgrenciTCNOKeyReleased
 
-
+// <editor-fold defaultstate="collapsed" desc="component tanımlamaları">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFotograCek;
     private javax.swing.JButton btnKaydet;
@@ -1675,7 +1732,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private javax.swing.JTextField txtBabaIsTelefonu;
     private javax.swing.JTextField txtBabaMeslegi;
     private javax.swing.JTextField txtBabaSoyadi;
-    private javax.swing.JFormattedTextField txtBilsemBaslamaYili;
+    private javax.swing.JTextField txtBilsemBaslamaYili;
     private javax.swing.JFormattedTextField txtKayitTarihi;
     private javax.swing.JTextField txtOgrenciAdi;
     private javax.swing.JTextArea txtOgrenciAdres;
@@ -1688,6 +1745,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private javax.swing.JTextField txtOrgunEgitimSubesi;
     private javax.swing.JTextField txtSurekliHastalik;
     private javax.swing.JTextField txtSurekliIlac;
-    private javax.swing.JFormattedTextField txtTanilamaYili;
+    private javax.swing.JTextField txtTanilamaYili;
     // End of variables declaration//GEN-END:variables
+// </editor-fold>
 }

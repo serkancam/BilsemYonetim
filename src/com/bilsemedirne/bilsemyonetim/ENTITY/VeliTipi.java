@@ -14,6 +14,18 @@ public class VeliTipi
     private int veliTipiKodu;
     private String veliTipiAdi;
 
+    public VeliTipi()
+    {
+    }
+
+    public VeliTipi(int veliTipiKodu)
+    {
+        this.veliTipiKodu = veliTipiKodu;
+     
+    }
+    
+    
+
     public int getVeliTipiKodu() {
         return veliTipiKodu;
     }
@@ -28,6 +40,12 @@ public class VeliTipi
 
     public void setVeliTipiAdi(String veliTipiAdi) {
         this.veliTipiAdi = veliTipiAdi;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "VeliTipi{" + "veliTipiKodu=" + veliTipiKodu + ", veliTipiAdi=" + veliTipiAdi + '}';
     }
     
     

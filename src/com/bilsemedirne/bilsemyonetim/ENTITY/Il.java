@@ -14,6 +14,17 @@ public class Il
     private int ilKodu;
     private String ilAdi;
 
+    public Il()
+    {
+    }
+
+    public Il(int ilKodu)
+    {
+        this.ilKodu = ilKodu;
+    }
+    
+    
+
     public int getIlKodu() {
         return ilKodu;
     }
@@ -28,6 +39,12 @@ public class Il
 
     public void setIlAdi(String ilAdi) {
         this.ilAdi = ilAdi;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Il{" + "ilKodu=" + ilKodu + ", ilAdi=" + ilAdi + '}';
     }
     
     

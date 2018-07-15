@@ -31,7 +31,7 @@ public class Ogrenci
     private Bilsemler nakilGeldigiBilsem;
     private String adres;
     private Date kayitTarihi;
-    private Veli velayet;
+    private VeliTipi velayet;
     private String fotograf;
     private byte aileDurumu;//1- beraber,0- ayrı
     private String orgunEgitimokulNo;
@@ -46,7 +46,7 @@ public class Ogrenci
 
     
     
-    public Ogrenci(String ogrenciTCNO, String ogrenciAdi, String ogrenciSoyadi, short ogrenciBilsemNo, String dogumYeri, Date dogumTarihi, int tanimlamaYili, Il tanimlananIl, int ilkBilsemBaslamaYili, Il ilkBilsemBaslamaIli, byte cinsiyet, String orgunOgretimdekiOgretmenAdi, String surekliHastalik, String surekliKullanilanIlac, Bilsemler nakilGeldigiBilsem, String adres, Date kayitTarihi, Veli velayet, String fotograf, byte aileDurumu, String orgunEgitimokulNo, int orgunEgitimSinifi, String orgunEgitimSubesi, Okul orgunEgitimOkulu, Ogretmen danismanOgretmen)
+    public Ogrenci(String ogrenciTCNO, String ogrenciAdi, String ogrenciSoyadi, short ogrenciBilsemNo, String dogumYeri, Date dogumTarihi, int tanimlamaYili, Il tanimlananIl, int ilkBilsemBaslamaYili, Il ilkBilsemBaslamaIli, byte cinsiyet, String orgunOgretimdekiOgretmenAdi, String surekliHastalik, String surekliKullanilanIlac, Bilsemler nakilGeldigiBilsem, String adres, Date kayitTarihi, VeliTipi velayet, String fotograf, byte aileDurumu, String orgunEgitimokulNo, int orgunEgitimSinifi, String orgunEgitimSubesi, Okul orgunEgitimOkulu, Ogretmen danismanOgretmen)
     {
         this.ogrenciTCNO = ogrenciTCNO;
         this.ogrenciAdi = ogrenciAdi;
@@ -248,11 +248,11 @@ public class Ogrenci
         this.kayitTarihi = kayitTarihi;
     }
 
-    public Veli getVelayet() {
+    public VeliTipi getVelayet() {
         return velayet;
     }
 
-    public void setVelayet(Veli velayet) {
+    public void setVelayet(VeliTipi velayet) {
         this.velayet = velayet;
     }
 
@@ -279,9 +279,14 @@ public class Ogrenci
     public void setOrgunEgitimokulNo(String orgunEgitimokulNo) {
         this.orgunEgitimokulNo = orgunEgitimokulNo;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Ogrenci{" + "ogrenciTCNO=" + ogrenciTCNO + ", ogrenciAdi=" + ogrenciAdi + ", ogrenciSoyadi=" + ogrenciSoyadi + ", ogrenciBilsemNo=" + ogrenciBilsemNo + ", dogumYeri=" + dogumYeri + ", dogumTarihi=" + dogumTarihi + ", tanimlamaYili=" + tanimlamaYili + ", tanimlananIl=" + tanimlananIl + ", ilkBilsemBaslamaYili=" + ilkBilsemBaslamaYili + ", ilkBilsemBaslamaIli=" + ilkBilsemBaslamaIli + ", cinsiyet=" + cinsiyet + ", orgunOgretimdekiOgretmenAdi=" + orgunOgretimdekiOgretmenAdi + ", surekliHastalik=" + surekliHastalik + ", surekliKullanilanIlac=" + surekliKullanilanIlac + ", nakilGeldigiBilsem=" + nakilGeldigiBilsem + ", adres=" + adres + ", kayitTarihi=" + kayitTarihi + ", velayet=" + velayet + ", fotograf=" + fotograf + ", aileDurumu=" + aileDurumu + ", orgunEgitimokulNo=" + orgunEgitimokulNo + ", orgunEgitimSinifi=" + orgunEgitimSinifi + ", orgunEgitimSubesi=" + orgunEgitimSubesi + ", orgunEgitimOkulu=" + orgunEgitimOkulu + ", danismanOgretmen=" + danismanOgretmen + '}';
+    }
     
-    
-    
+       
     
     
 }

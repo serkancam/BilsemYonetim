@@ -29,6 +29,13 @@ public class Veli
     {
     }
 
+    public Veli(int veliKodu)
+    {
+        this.veliKodu = veliKodu;
+    }
+    
+    
+
     public Veli(int veliKodu, String veliAdi, String veliSoyadi, String evAdresi, String isAdresi, String evTelefonu, String isTelefonu, String cepTelefonu, String epostaAdresi, OgrenimDurumu ogrenciDurumu, byte hayattami, VeliTipi veliTipi, String meslegi)
     {
         this.veliKodu = veliKodu;

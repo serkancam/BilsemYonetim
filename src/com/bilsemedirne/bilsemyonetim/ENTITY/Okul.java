@@ -15,6 +15,16 @@ public class Okul
     private String okulAdi;
     private Ilce ilceKodu;
 
+    public Okul()
+    {
+    }
+
+    public Okul(int okulKodu)
+    {
+        this.okulKodu = okulKodu;
+    }
+    
+    
     public int getOkulKodu() {
         return okulKodu;
     }
@@ -37,6 +47,12 @@ public class Okul
 
     public void setIlceKodu(Ilce ilceKodu) {
         this.ilceKodu = ilceKodu;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Okul{" + "okulKodu=" + okulKodu + ", okulAdi=" + okulAdi + ", ilceKodu=" + ilceKodu + '}';
     }
     
     
