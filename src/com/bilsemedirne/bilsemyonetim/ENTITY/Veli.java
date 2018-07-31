@@ -20,7 +20,7 @@ public class Veli
     private String isTelefonu;
     private String cepTelefonu;
     private String epostaAdresi;
-    private OgrenimDurumu ogrenciDurumu;
+    private OgrenimDurumu ogrenimDurumu;
     private byte hayattami;//hayatta-1, değil-0
     private VeliTipi veliTipi;
     private String meslegi;
@@ -47,7 +47,7 @@ public class Veli
         this.isTelefonu = isTelefonu;
         this.cepTelefonu = cepTelefonu;
         this.epostaAdresi = epostaAdresi;
-        this.ogrenciDurumu = ogrenciDurumu;
+        this.ogrenimDurumu = ogrenciDurumu;
         this.hayattami = hayattami;
         this.veliTipi = veliTipi;
         this.meslegi = meslegi;
@@ -136,12 +136,12 @@ public class Veli
         this.epostaAdresi = epostaAdresi;
     }
 
-    public OgrenimDurumu getOgrenciDurumu() {
-        return ogrenciDurumu;
+    public OgrenimDurumu getOgrenimDurumu() {
+        return ogrenimDurumu;
     }
 
-    public void setOgrenciDurumu(OgrenimDurumu ogrenciDurumu) {
-        this.ogrenciDurumu = ogrenciDurumu;
+    public void setOgrenimDurumu(OgrenimDurumu ogrenimDurumu) {
+        this.ogrenimDurumu = ogrenimDurumu;
     }
 
     public byte getHayattami() {

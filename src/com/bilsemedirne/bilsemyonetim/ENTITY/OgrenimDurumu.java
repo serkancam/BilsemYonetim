@@ -14,6 +14,17 @@ public class OgrenimDurumu
     private int ogrenimDurumuKodu;
     private String ogrenimDurumuAdi;
 
+    public OgrenimDurumu()
+    {
+    }
+
+    public OgrenimDurumu(int ogrenimDurumuKodu)
+    {
+        this.ogrenimDurumuKodu = ogrenimDurumuKodu;
+    }
+    
+    
+
     public int getOgrenimDurumuKodu() {
         return ogrenimDurumuKodu;
     }

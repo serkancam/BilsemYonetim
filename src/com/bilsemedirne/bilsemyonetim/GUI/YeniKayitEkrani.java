@@ -1488,7 +1488,34 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         ogrenci.setTanimlananIl(new Il(bilsemTanimlamaIli));
         ogrenci.setVelayet(new VeliTipi(secilenVelitipi));
         
-        System.out.println(ogrenci.toString());
+        //Anne değerleri Sınıflara aktarılıyor
+        anne.setVeliAdi(anneAd);
+        anne.setVeliSoyadi(anneSoyad);
+        anne.setEvAdresi(anneEvAdresi);
+        anne.setIsAdresi(anneIsAdresi);
+        anne.setEvTelefonu(anneEvTelefon);
+        anne.setIsTelefonu(anneIsTelefon);
+        anne.setCepTelefonu(anneCeptelefon);
+        anne.setEpostaAdresi(anneEposta);
+        anne.setOgrenimDurumu(new OgrenimDurumu(anneOgrenimDurumu));
+        anne.setHayattami(anneHayattami);
+        anne.setVeliTipi(new VeliTipi(1));
+        anne.setMeslegi(anneMeslegi);
+        //Baba değerleri Sınıflara aktarılıyor
+        baba.setVeliAdi(babaAd);
+        baba.setVeliSoyadi(babaSoyad);
+        baba.setEvAdresi(babaEvAdresi);
+        baba.setIsAdresi(babaIsAdresi);
+        baba.setEvTelefonu(babaEvTelefon);
+        baba.setIsTelefonu(babaIsTelefon);
+        baba.setCepTelefonu(babaCeptelefon);
+        baba.setEpostaAdresi(babaEposta);
+        baba.setOgrenimDurumu(new OgrenimDurumu(babaOgrenimDurumu));
+        baba.setHayattami(babaHayattami);
+        baba.setVeliTipi(new VeliTipi(2));
+        baba.setMeslegi(babaMeslegi);
+        
+        
         // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Kayıt ve Pdf'ye yazdırma İşlemleri">
@@ -1510,7 +1537,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba); 
             if(ilkKayit>0)
             {
-                System.out.println("Kayıt işlemi başarılı");   
+                System.out.println("Kayıt işlemi başarılı");  
+                JOptionPane.showConfirmDialog(this, "Kayıt İşlemi Yapıldı.");
             }
              
        
