@@ -23,6 +23,14 @@ public class VeliTipi
         this.veliTipiKodu = veliTipiKodu;
      
     }
+
+    public VeliTipi(int veliTipiKodu, String veliTipiAdi)
+    {
+        this.veliTipiKodu = veliTipiKodu;
+        this.veliTipiAdi = veliTipiAdi;
+    }
+    
+    
     
     
 

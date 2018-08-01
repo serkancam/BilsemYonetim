@@ -23,6 +23,13 @@ public class Bilsemler
     {
         this.bilsemKodu = bilsemKodu;
     }
+
+    public Bilsemler(int bilsemKodu, String bilsemAdi)
+    {
+        this.bilsemKodu = bilsemKodu;
+        this.bilsemAdi = bilsemAdi;
+    }
+    
     
     
 

@@ -27,7 +27,9 @@ public class OgrenciDAO extends DAO
             + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String ilkKayitVelisiKim="INSERT INTO ogrencininvelisi(ogrenciTCNO,veliKodu) VALUES(?,?)";
     
-    public Integer IlkKayit(Ogrenci ogrenci, Veli anne, Veli baba) 
+    private final String yetenekAlaniEkle="INSERT INTO ogrenciyetenekalani(ogrenciTCNO,yetenekAlanKodu) VALUES(?,?)";
+    
+    public Integer IlkKayit(Ogrenci ogrenci, Veli anne, Veli baba, boolean[] yetenekAlanlari) 
     {
         Integer result=0;
         int pk = 0;
@@ -37,6 +39,7 @@ public class OgrenciDAO extends DAO
         PreparedStatement stmtAnne = null;
         PreparedStatement stmtBaba = null;
         PreparedStatement stmtVelisi=null;
+        PreparedStatement stmtYetenekAlani=null;
 		
 		try 
                 {
@@ -104,8 +107,21 @@ public class OgrenciDAO extends DAO
                     result +=stmtAnne.executeUpdate();
                     ResultSet rsA=stmtAnne.getGeneratedKeys();
                     result +=stmtBaba.executeUpdate();
-                   ResultSet rsB=stmtBaba.getGeneratedKeys();
+                    ResultSet rsB=stmtBaba.getGeneratedKeys();
                     
+                    
+                    for(int i=0;i<yetenekAlanlari.length;i++)
+                    {
+                        if(yetenekAlanlari[i]==true)
+                        {
+                            stmtYetenekAlani=conn.prepareStatement(yetenekAlaniEkle);
+                            stmtYetenekAlani.setString(1, ogrenci.getOgrenciTCNO());
+                            stmtYetenekAlani.setInt(2, i+1);
+                            result +=stmtYetenekAlani.executeUpdate();
+                            //stmtYetenekAlani=null;
+                            
+                        }
+                    }
                     //
                     if(ogrenci.getVelayet().getVeliTipiKodu()==1)
                     {

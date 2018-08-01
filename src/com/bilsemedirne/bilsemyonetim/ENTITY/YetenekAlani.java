@@ -14,6 +14,23 @@ public class YetenekAlani
     private int yetenekAlaniKodu;
     private String yetenekAlaniAdi;
 
+    public YetenekAlani()
+    {
+    }
+
+    public YetenekAlani(int yetenekAlaniKodu)
+    {
+        this.yetenekAlaniKodu = yetenekAlaniKodu;
+    }
+
+    public YetenekAlani(int yetenekAlaniKodu, String yetenekAlaniAdi)
+    {
+        this.yetenekAlaniKodu = yetenekAlaniKodu;
+        this.yetenekAlaniAdi = yetenekAlaniAdi;
+    }
+    
+    
+
     public int getYetenekAlaniKodu() {
         return yetenekAlaniKodu;
     }

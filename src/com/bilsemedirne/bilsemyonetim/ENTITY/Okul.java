@@ -23,6 +23,14 @@ public class Okul
     {
         this.okulKodu = okulKodu;
     }
+
+    public Okul(int okulKodu, String okulAdi)
+    {
+        this.okulKodu = okulKodu;
+        this.okulAdi = okulAdi;
+    }
+    
+    
     
     
     public int getOkulKodu() {

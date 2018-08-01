@@ -22,6 +22,12 @@ public class OgrenimDurumu
     {
         this.ogrenimDurumuKodu = ogrenimDurumuKodu;
     }
+
+    public OgrenimDurumu(int ogrenimDurumuKodu, String ogrenimDurumuAdi)
+    {
+        this.ogrenimDurumuKodu = ogrenimDurumuKodu;
+        this.ogrenimDurumuAdi = ogrenimDurumuAdi;
+    }
     
     
 

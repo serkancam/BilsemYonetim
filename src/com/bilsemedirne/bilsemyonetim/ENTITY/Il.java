@@ -22,6 +22,13 @@ public class Il
     {
         this.ilKodu = ilKodu;
     }
+
+    public Il(int ilKodu, String ilAdi)
+    {
+        this.ilKodu = ilKodu;
+        this.ilAdi = ilAdi;
+    }
+    
     
     
 

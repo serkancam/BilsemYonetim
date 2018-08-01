@@ -14,6 +14,8 @@ public class DevamEttigiProgram
     private int devamEttigiProgramId;
     private Ogrenci ogrenciTCNO;
     private Program programKodu;
+    
+    
 
     public int getDevamEttigiProgramId() {
         return devamEttigiProgramId;

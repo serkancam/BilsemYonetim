@@ -57,7 +57,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             ogrOrgunEgitimNo="",ogrSurekliIlac="",ogrSurekliHastalik="",anneAd="",anneSoyad="",anneEposta="",anneEvTelefon="",
             anneIsTelefon="",anneCeptelefon="",anneMeslegi="",anneEvAdresi="",anneIsAdresi="",babaAd="",babaSoyad="",babaEposta="",babaEvTelefon="",
             babaIsTelefon="",babaIsAdresi="",babaCeptelefon="",babaMeslegi="",babaEvAdresi="";
-    boolean[] yetenekAlanlari={false,false,false};
+    boolean[] yetenekAlanlari={false,false,false};//genel,görsel,müzik
     
             
            
@@ -102,7 +102,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 			    	System.out.println("Going to wait()");
 			    	this.wait();
 			    }
-                             FotografiPaneleBas();
+                            if(fotoYolu != null){FotografiPaneleBas();}
+                             
 			 }
 			 catch(Exception ex)
                          {
@@ -1056,8 +1057,13 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 
     private void btnFotograCekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotograCekActionPerformed
         // TODO add your handling code here:
-       // fotoYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNo.getText()+".jpg";
-        fotoYolu="G:/foto/"+txtOgrenciTCNO.getText()+".jpg";
+        if(!txtOgrenciTCNO.getText().trim().matches("\\d{11}"))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Lütfen TC Kimlik No Bilgisi giriniz","Hata",JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+      // fotoYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
+       fotoYolu="G:/foto/"+txtOgrenciTCNO.getText()+".jpg";
         Highgui.imwrite(fotoYolu, frame);
         FotografiPaneleBas();
         
@@ -1291,10 +1297,10 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin nakil geldiği BİLSEM bilgisini seçiniz."; 
           }
-        if(!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected()))
+        if((!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected())) || (chkbGenel.isSelected() && chkbGorsel.isSelected() && chkbMuzik.isSelected()))
         {
             islem=false;
-            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz."; 
+            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz.(En fazla 2 alan seçilebilir.)"; 
         }
         if(fotoYolu==null)
         {
@@ -1396,7 +1402,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         if(islem==false)
         {
             JOptionPane.showMessageDialog(rootPane, hata,"Hata",JOptionPane.ERROR_MESSAGE);
-            FotografiPaneleBas();
+           // FotografiPaneleBas();
             return;
         }
       
@@ -1469,15 +1475,15 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         ogrenci.setDogumTarihi(ogrDogumTarihi);
         ogrenci.setDogumYeri(ogrDogumYeri);
         ogrenci.setFotograf(fotoYolu);
-        ogrenci.setIlkBilsemBaslamaIli(new Il(bilsemBaslamaIli));
+        ogrenci.setIlkBilsemBaslamaIli(new Il(bilsemBaslamaIli,((Cift) cbTanilamaIli.getSelectedItem()).value));
         ogrenci.setIlkBilsemBaslamaYili(ilkBilsemBaslamaYili);
         ogrenci.setKayitTarihi(ogrKayitTarihi);
-        ogrenci.setNakilGeldigiBilsem(new Bilsemler(nakilGeldigiBilsem));
+        ogrenci.setNakilGeldigiBilsem(new Bilsemler(nakilGeldigiBilsem,((Cift)cbNakilGelinenBilsem.getSelectedItem()).value));
         ogrenci.setOgrenciAdi(ogrAdi);
         ogrenci.setOgrenciBilsemNo((short)-1);
         ogrenci.setOgrenciSoyadi(ogrSoyadi);
         ogrenci.setOgrenciTCNO(ogrTCNO);
-        ogrenci.setOrgunEgitimOkulu(new Okul(orgunOkul));
+        ogrenci.setOrgunEgitimOkulu(new Okul(orgunOkul,((Cift)cbOrgunEgitimOkulu.getSelectedItem()).value));
         ogrenci.setOrgunEgitimSinifi(orgunEgitimSinifSeviyesi);
         ogrenci.setOrgunEgitimSubesi(ogrOrgunEgitimSubesi);
         ogrenci.setOrgunEgitimokulNo(ogrOrgunEgitimNo);
@@ -1485,8 +1491,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         ogrenci.setSurekliHastalik(ogrSurekliHastalik);
         ogrenci.setSurekliKullanilanIlac(ogrSurekliIlac);
         ogrenci.setTanimlamaYili(ilkBilsemTanilamaYili);
-        ogrenci.setTanimlananIl(new Il(bilsemTanimlamaIli));
-        ogrenci.setVelayet(new VeliTipi(secilenVelitipi));
+        ogrenci.setTanimlananIl(new Il(bilsemTanimlamaIli,((Cift)cbTanilamaIli.getSelectedItem()).value));
+        ogrenci.setVelayet(new VeliTipi(secilenVelitipi,((Cift)cbOgrenciVelisiKim.getSelectedItem()).value));
         
         //Anne değerleri Sınıflara aktarılıyor
         anne.setVeliAdi(anneAd);
@@ -1497,7 +1503,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         anne.setIsTelefonu(anneIsTelefon);
         anne.setCepTelefonu(anneCeptelefon);
         anne.setEpostaAdresi(anneEposta);
-        anne.setOgrenimDurumu(new OgrenimDurumu(anneOgrenimDurumu));
+        anne.setOgrenimDurumu(new OgrenimDurumu(anneOgrenimDurumu,((Cift)cbAnneOgrenimDurumu.getSelectedItem()).value));
         anne.setHayattami(anneHayattami);
         anne.setVeliTipi(new VeliTipi(1));
         anne.setMeslegi(anneMeslegi);
@@ -1510,7 +1516,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         baba.setIsTelefonu(babaIsTelefon);
         baba.setCepTelefonu(babaCeptelefon);
         baba.setEpostaAdresi(babaEposta);
-        baba.setOgrenimDurumu(new OgrenimDurumu(babaOgrenimDurumu));
+        baba.setOgrenimDurumu(new OgrenimDurumu(babaOgrenimDurumu,((Cift)cbBabaOgrenimDurumu.getSelectedItem()).value));
         baba.setHayattami(babaHayattami);
         baba.setVeliTipi(new VeliTipi(2));
         baba.setMeslegi(babaMeslegi);
@@ -1534,11 +1540,11 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         
         OgrenciDAO islemler=new OgrenciDAO();
         
-            Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba); 
+            Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba,yetenekAlanlari); 
             if(ilkKayit>0)
             {
                 System.out.println("Kayıt işlemi başarılı");  
-                JOptionPane.showConfirmDialog(this, "Kayıt İşlemi Yapıldı.");
+                JOptionPane.showMessageDialog(rootPane, "Bilgileriniz Kaydedildi ve Yazıcıdan Çıkmaya Hazır","İşlem Onayı",JOptionPane.INFORMATION_MESSAGE);
             }
              
        
