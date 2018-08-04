@@ -9,12 +9,26 @@ import com.bilsemedirne.bilsemyonetim.ENTITY.*;
 import com.bilsemedirne.bilsemyonetim.DAO.*;
 import com.bilsemedirne.bilsemyonetim.Islem.Cift;
 import com.bilsemedirne.bilsemyonetim.Islem.GorselIslemler;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfImage;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
+import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -43,8 +57,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
    
 
     Ogrenci ogrenci=null;
-    String fotoYolu=null;
-    String hata="";
+    String fotoYolu=null,dosyaYolu=null;
+    String hata="",bilgi="";
     Veli anne=null,baba=null;
  
     byte ogrCinsiyet=-1,ogrAileDurumu=-1,anneHayattami=-1,babaHayattami=-1;
@@ -102,7 +116,10 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
 			    	System.out.println("Going to wait()");
 			    	this.wait();
 			    }
-                            if(fotoYolu != null){FotografiPaneleBas();}
+                            
+                                                      
+                                FotografiPaneleBas();
+                           
                              
 			 }
 			 catch(Exception ex)
@@ -122,6 +139,11 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     {
         if(fotoYolu!=null)
         {
+            File f = new File(fotoYolu);
+            if(!f.exists() )
+            { 
+                return;
+            }
             try 
             {
                 BufferedImage  img = ImageIO.read(new File(fotoYolu));
@@ -1063,7 +1085,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
              return;
         }
       // fotoYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
-       fotoYolu="G:/foto/"+txtOgrenciTCNO.getText()+".jpg";
+       fotoYolu="G:/bilsem/foto/"+txtOgrenciTCNO.getText()+".jpg";
         Highgui.imwrite(fotoYolu, frame);
         FotografiPaneleBas();
         
@@ -1183,6 +1205,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         Locale trlocale= Locale.forLanguageTag("tr-TR");
         
         hata="Hatalı Yapılan İşlemler";
+       // bilgi="Bilgileriniz doğruysa Kaydet Butonuna Basınız.";
 
         // <editor-fold defaultstate="collapsed" desc="Hata işlemleri">
         if(!txtOgrenciTCNO.getText().trim().matches("\\d{11}"))
@@ -1352,6 +1375,12 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 hata+="\n"+"* Lütfen Anne meslek bilgisini doğru giriniz.";          
 
             }
+            if(!(txtAnneEposta.getText().trim().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Anne eposta bilgisini doğru giriniz.";          
+
+            }
               if(!(txtAnneEvAdresi.getText().trim().length()>6))
             {
                 islem=false;
@@ -1377,6 +1406,12 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             {
                 islem=false;
                 hata+="\n"+"* Lütfen Baba meslek bilgisini doğru giriniz.";          
+
+            }
+             if(!(txtBabaEposta.getText().trim().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")))
+            {
+                islem=false;
+                hata+="\n"+"* Lütfen Baba eposta bilgisini doğru giriniz.";          
 
             }
               if(!(txtBabaEvAdresi.getText().trim().length()>6))
@@ -1410,12 +1445,14 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         
         // <editor-fold defaultstate="collapsed" desc="Öğrenci Değişkenleri doldurma">
         
-        ogrTCNO=txtOgrenciTCNO.getText();      
+        ogrTCNO=txtOgrenciTCNO.getText(); 
+//        bilgi+="\n"+"Öğrenci TC Kimlik NO:\t"+ogrTCNO;
            
         SimpleDateFormat df=new SimpleDateFormat("dd.MM.yyyy",Locale.ROOT);       
         try
         {           
-            ogrDogumTarihi=df.parse(txtOgrenciDogumTarihi.getText());                 
+            ogrDogumTarihi=df.parse(txtOgrenciDogumTarihi.getText());
+//            bilgi+="\n"+"Öğrenci doğum tarihi:\t"+ogrDogumTarihi;
 
         } 
         catch (ParseException e) { e.printStackTrace();}
@@ -1431,17 +1468,28 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         ogrSurekliHastalik=txtSurekliHastalik.getText().trim().toUpperCase(trlocale);
         ogrAdresi=txtOgrenciAdres.getText().trim().toUpperCase(trlocale);
         
+//        bilgi+="\n"+"Öğrenci doğum yeri:\t"+ogrDogumYeri;
+//        bilgi+="\n"+"Öğrenci Adı:\t"+ogrAdi;
+//        bilgi+="\n"+"Öğrenci Soyadı:\t"+ogrSoyadi;
+//        bilgi+="\n"+"Öğrenci Örgün eğitimdeki Sınıfı:\t"+orgunEgitimSinifSeviyesi+ogrOrgunEgitimSubesi;
+//        bilgi+="\n"+"Öğrenci cinsiyeti:\t"+(ogrCinsiyet==0?"Kız":"Erkek");
+//        bilgi+="\n"+"Öğrenci aile durumu:\t"+(ogrAileDurumu==0?"Ayrı":"Beraber");
+//        bilgi+="\n"+"Öğrenci Velisi:\t"+cbOgrenciVelisiKim.getSelectedItem().toString();
+//        bilgi+="\n"+"Öğrenci örgün eğitim okulu:\t"+cbOrgunEgitimOkulu.getSelectedItem().toString();
+//        bilgi+="\n"+"Öğrenci örgün eğitimdeki öğretmeni:\t"+ogrOrgunEgitimSinifOgretmeni;
+//        bilgi+="\n"+"Öğrenci örgün eğitimdeki okul numarası:\t"+ogrOrgunEgitimNo;
+//         bilgi+="\n"+"Öğrenci BİLSEM tanılama yılı ve ili:\t"+ ilkBilsemTanilamaYili+"-"+ogrenci.getTanimlananIl().getIlAdi();
+         
+         
         
         
-          
-       
        // </editor-fold>
        
         // <editor-fold defaultstate="collapsed" desc="Anne Değişkenleri doldurma">
         anneAd=txtAnneAdi.getText().trim().toUpperCase(trlocale);
         anneSoyad=txtAnneSoyadi.getText().trim().toUpperCase(trlocale);
         anneCeptelefon=txtAnneCepTelefonu.getText();
-        anneEposta=txtAnneEposta.getText().trim().toUpperCase(trlocale);
+        anneEposta=txtAnneEposta.getText().trim();
         anneEvAdresi=txtAnneEvAdresi.getText().trim().toUpperCase(trlocale);
         anneEvTelefon=txtAnneEvTelefonu.getText();
         anneIsTelefon=txtAnneIsTelefonu.getText();
@@ -1455,7 +1503,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         babaAd=txtBabaAdi.getText().trim().toUpperCase(trlocale);
         babaSoyad=txtBabaSoyadi.getText().trim().toUpperCase(trlocale);
         babaCeptelefon=txtBabaCepTelefonu.getText();
-        babaEposta=txtBabaEposta.getText().trim().toUpperCase(trlocale);
+        babaEposta=txtBabaEposta.getText().trim();
         babaEvAdresi=txtBabaEvAdresi.getText().trim().toUpperCase(trlocale);
         babaEvTelefon=txtBabaEvTelefonu.getText();
         babaIsTelefon=txtBabaIsTelefonu.getText();
@@ -1529,7 +1577,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         {
          String[] choices = { "Bilgileri Kaydet ve Yazdır", "İptal"};
         int result = JOptionPane.showOptionDialog(this,
-        "Bilgileriniz doğruysa Kaydet Butonuna Basınız", "Dikkat",
+        "Bilgileriniz doğruysa Kaydet Butonuna Basınız.", "Dikkat",
         JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, 
         null, choices, choices[0]);  
         
@@ -1538,16 +1586,359 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             
         }
         
+        
+        
+        //***Veritabınına kayıt ekleme***
         OgrenciDAO islemler=new OgrenciDAO();
         
-            Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba,yetenekAlanlari); 
-            if(ilkKayit>0)
-            {
-                System.out.println("Kayıt işlemi başarılı");  
-                JOptionPane.showMessageDialog(rootPane, "Bilgileriniz Kaydedildi ve Yazıcıdan Çıkmaya Hazır","İşlem Onayı",JOptionPane.INFORMATION_MESSAGE);
-            }
-             
+        Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba,yetenekAlanlari); 
+        if(ilkKayit>0)
+        {
+            System.out.println("Kayıt işlemi başarılı");  
+            JOptionPane.showMessageDialog(rootPane, "Bilgileriniz Kaydedildi ve Yazıcıdan Çıkmaya Hazır","İşlem Onayı",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            System.out.println("Kayıt işlemi başarısız");  
+            JOptionPane.showMessageDialog(rootPane, "Bilgileriniz kaydedilemedi lütfen tekrar deneyiniz","Hata",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        //***Pdf oluşturma***
+        
        
+        // dosyaYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
+        dosyaYolu="G:\\bilsem\\dosya"+"\\"+txtOgrenciTCNO.getText()+".pdf";
+        
+        Document dosya=new Document(PageSize.A4);
+        try
+        {
+            PdfWriter.getInstance(dosya,new FileOutputStream(dosyaYolu));
+            dosya.open();
+            BaseFont bf =BaseFont.createFont(BaseFont.TIMES_ROMAN,"iso-8859-9",BaseFont.EMBEDDED);
+            Font fontBaslik = new Font(bf, 12, Font.BOLD);
+            Font fontNormal = new Font(bf, 12, Font.NORMAL);
+            Font fontAltcizgiKalin = new Font(bf, 12, 5);
+            com.itextpdf.text.Image image =  com.itextpdf.text.Image.getInstance(fotoYolu);
+            image.scaleToFit(64, 48);
+            image.setAlignment(com.itextpdf.text.Image.ALIGN_RIGHT);
+            Paragraph p1=new Paragraph("EDİRNE ŞEHİT NEFİZE ÇETİN ÖZSOY BİLİM VE SANAT MERKEZİ",fontBaslik);
+            p1.setAlignment(1);
+            dosya.add(p1);
+            dosya.add(new Paragraph("  "));  
+            dosya.add(image);
+            dosya.add(new Paragraph("  "));           
+            dosya.add(new Paragraph("ÖĞRENCİNİN",fontAltcizgiKalin));
+            dosya.add(new Paragraph(" "));
+            
+            int[] boyut={35,5,60};
+            int[] boyut2={46,8,46};
+            PdfPTable ogrenciBilgiTablosu=new PdfPTable(3);
+            ogrenciBilgiTablosu.setWidths(boyut);
+            
+
+            PdfPCell hucreBaslik,hucreIkiNokta,hucreICerik;
+            
+            //adı-soyadı
+            hucreBaslik = new PdfPCell(new Paragraph( "Adı-Soyadı",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( ogrenci.getOgrenciAdi()+" "+ogrenci.getOgrenciSoyadi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            ogrenciBilgiTablosu.addCell(hucreBaslik);
+            ogrenciBilgiTablosu.addCell(hucreIkiNokta);
+            ogrenciBilgiTablosu.addCell(hucreICerik);
+            //doğum yeri-Tarihi
+            hucreBaslik = new PdfPCell(new Paragraph(LEFT_ALIGNMENT, "Doğum Yeri/Tarihi",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph(CENTER_ALIGNMENT, ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph(LEFT_ALIGNMENT, ogrDogumYeri+"/"+df.format(ogrDogumTarihi),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            ogrenciBilgiTablosu.addCell(hucreBaslik);
+            ogrenciBilgiTablosu.addCell(hucreIkiNokta);
+            ogrenciBilgiTablosu.addCell(hucreICerik);
+            //Okuduğu Okul
+            hucreBaslik = new PdfPCell(new Paragraph(LEFT_ALIGNMENT, "Okuduğu Okul",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph(CENTER_ALIGNMENT, ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph(LEFT_ALIGNMENT, ogrenci.getOrgunEgitimOkulu().getOkulAdi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            ogrenciBilgiTablosu.addCell(hucreBaslik);
+            ogrenciBilgiTablosu.addCell(hucreIkiNokta);
+            ogrenciBilgiTablosu.addCell(hucreICerik);
+            //Sınıfı ve NO
+            hucreBaslik = new PdfPCell(new Paragraph(LEFT_ALIGNMENT, "Sınıfı ve NO",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph(CENTER_ALIGNMENT, ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph(LEFT_ALIGNMENT, orgunEgitimSinifSeviyesi+"/"+ogrOrgunEgitimSubesi+" - "+ ogrOrgunEgitimNo,fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            ogrenciBilgiTablosu.addCell(hucreBaslik);
+            ogrenciBilgiTablosu.addCell(hucreIkiNokta);
+            ogrenciBilgiTablosu.addCell(hucreICerik);
+             //Tanımlama Yılı
+            hucreBaslik = new PdfPCell(new Paragraph(LEFT_ALIGNMENT, "Tanımlama Yılı",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph(CENTER_ALIGNMENT, ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph(LEFT_ALIGNMENT,ilkBilsemTanilamaYili+"",fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            ogrenciBilgiTablosu.addCell(hucreBaslik);
+            ogrenciBilgiTablosu.addCell(hucreIkiNokta);
+            ogrenciBilgiTablosu.addCell(hucreICerik);
+            //Merkezde Eğitime Başlama Tarihi
+            hucreBaslik = new PdfPCell(new Paragraph(LEFT_ALIGNMENT, "Merkezde Eğitime Başlama Tarihi",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph(CENTER_ALIGNMENT, ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph(LEFT_ALIGNMENT,txtKayitTarihi.getText()+"",fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            ogrenciBilgiTablosu.addCell(hucreBaslik);
+            ogrenciBilgiTablosu.addCell(hucreIkiNokta);
+            ogrenciBilgiTablosu.addCell(hucreICerik);
+            dosya.add(ogrenciBilgiTablosu);
+            dosya.add(new Paragraph("  "));
+            //veli
+            PdfPTable veliBilgiTablosu=new PdfPTable(3);
+            veliBilgiTablosu.setWidths(boyut);
+            dosya.add(new Paragraph("VELİSİNİN",fontAltcizgiKalin));
+            dosya.add(new Paragraph(" "));
+            Veli veli=null;
+           
+            if(secilenVelitipi==1)
+            {
+                veli=anne;
+                
+            }
+            else
+            {
+                veli=baba;
+            }
+            //adı-soyadı
+            hucreBaslik = new PdfPCell(new Paragraph( "Adı-Soyadı",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getVeliAdi()+" "+veli.getVeliSoyadi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            //Yakınlığı
+            hucreBaslik = new PdfPCell(new Paragraph( "Yakınlığı",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( cbOgrenciVelisiKim.getSelectedItem().toString(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            //Mesleği
+            hucreBaslik = new PdfPCell(new Paragraph( "Mesleği",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getMeslegi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            //Ev Telefonu
+            hucreBaslik = new PdfPCell(new Paragraph( "Ev Telefonu",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getEvTelefonu(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            //İş Telefonu
+            hucreBaslik = new PdfPCell(new Paragraph( "İş Telefonu",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getIsTelefonu(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+             //Cep Telefonu
+            hucreBaslik = new PdfPCell(new Paragraph( "Cep Telefonu",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getCepTelefonu(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            //E-posta Adresi
+            hucreBaslik = new PdfPCell(new Paragraph( "E-posta Adresi",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getEpostaAdresi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            //Ev Adresi
+            hucreBaslik = new PdfPCell(new Paragraph( "Ev Adresi",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getEvAdresi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+             //İş Adresi
+            hucreBaslik = new PdfPCell(new Paragraph( "İş Adresi",fontBaslik));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( ":",fontBaslik));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(new Paragraph( veli.getIsAdresi(),fontNormal));            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            veliBilgiTablosu.addCell(hucreBaslik);
+            veliBilgiTablosu.addCell(hucreIkiNokta);
+            veliBilgiTablosu.addCell(hucreICerik);
+            
+            //imza Tablosu
+             PdfPTable imzaTablosu=new PdfPTable(3);
+            imzaTablosu.setWidths(boyut2);
+            
+            //Tarih
+            Paragraph p4=new Paragraph( txtKayitTarihi.getText(),fontNormal);
+            p4.setAlignment(1);
+            
+            hucreBaslik = new PdfPCell(p4);  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( " ",fontNormal));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(p4);            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            imzaTablosu.addCell(hucreBaslik);
+            imzaTablosu.addCell(hucreIkiNokta);
+            imzaTablosu.addCell(hucreICerik);
+             //isimler
+            Paragraph p2=new  Paragraph( veli.getVeliAdi()+" "+veli.getVeliSoyadi(),fontNormal);
+            p2.setAlignment(1);
+            Paragraph p3=new Paragraph( "Recep ŞENTÜRK",fontNormal);
+            p3.setAlignment(1);
+            
+            hucreBaslik = new PdfPCell(p2);  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( " ",fontNormal));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(p3);            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            imzaTablosu.addCell(hucreBaslik);
+            imzaTablosu.addCell(hucreIkiNokta);
+            imzaTablosu.addCell(hucreICerik);
+            //Ünvanlar
+            Paragraph p5=new Paragraph("Öğrenci Velisi",fontNormal);
+            p5.setAlignment(1);
+            Paragraph p6=new Paragraph("Edirne Şehit Nefize Çetin ÖZSOY \n Bilim ve Sanat Mekezi Müdürü",fontNormal);
+            p6.setAlignment(1);
+            hucreBaslik = new PdfPCell(p5);  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( " ",fontNormal));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(p6);            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            imzaTablosu.addCell(hucreBaslik);
+            imzaTablosu.addCell(hucreIkiNokta);
+            imzaTablosu.addCell(hucreICerik);
+            //muavafak imza
+            //imza Tablosu 2
+             PdfPTable imzaTablosuMuavafakat=new PdfPTable(3);
+            imzaTablosuMuavafakat.setWidths(boyut2);
+            
+            //Tarih
+            Paragraph p11=new Paragraph( txtKayitTarihi.getText(),fontNormal);
+            p11.setAlignment(1);
+            
+            hucreBaslik = new PdfPCell(new Paragraph( "",fontNormal));  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( " ",fontNormal));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(p11);            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            imzaTablosuMuavafakat.addCell(hucreBaslik);
+            imzaTablosuMuavafakat.addCell(hucreIkiNokta);
+            imzaTablosuMuavafakat.addCell(hucreICerik);
+             //isimler
+            Paragraph p12=new  Paragraph(" ",fontNormal);
+            p12.setAlignment(1);
+            Paragraph p13=new Paragraph( veli.getVeliAdi()+" "+veli.getVeliSoyadi(),fontNormal);
+            p13.setAlignment(1);
+            
+            hucreBaslik = new PdfPCell(p12);  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( " ",fontNormal));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(p13);            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            imzaTablosuMuavafakat.addCell(hucreBaslik);
+            imzaTablosuMuavafakat.addCell(hucreIkiNokta);
+            imzaTablosuMuavafakat.addCell(hucreICerik);
+            //Ünvanlar
+            Paragraph p15=new Paragraph(" ",fontBaslik);
+            p15.setAlignment(1);
+            Paragraph p16=new Paragraph("Öğrenci Velisi",fontNormal);
+            p16.setAlignment(1);
+            hucreBaslik = new PdfPCell(p15);  
+            hucreBaslik.setBorderColor(BaseColor.WHITE);
+            hucreIkiNokta = new PdfPCell(new Paragraph( " ",fontNormal));
+            hucreIkiNokta.setBorderColor(BaseColor.WHITE);
+            hucreICerik=new PdfPCell(p16);            
+            hucreICerik.setBorderColor(BaseColor.WHITE);
+            imzaTablosuMuavafakat.addCell(hucreBaslik);
+            imzaTablosuMuavafakat.addCell(hucreIkiNokta);
+            imzaTablosuMuavafakat.addCell(hucreICerik);
+            //Tabloyu Ekle
+            
+            
+            
+            dosya.add(veliBilgiTablosu);
+            dosya.add(new Paragraph("  "));
+            dosya.add(new Paragraph("Edirne Şehit Nefize Çetin ÖZSOY Bilim ve Sanat Merkezine "+txtKayitTarihi.getText()+" tarihinde kayıt yaptırdığım "+veli.getVeliAdi()+" "+veli.getVeliSoyadi()+" "+((ogrCinsiyet==0)?"Kızı":"oğlu")+" "+ogrAdi+" "+ogrSoyadi+" nın veliliğini kabul ederim.",fontNormal));
+            dosya.add(new Paragraph("  "));
+            dosya.add(new Paragraph("  "));
+            dosya.add(imzaTablosu);
+            dosya.newPage();
+            dosya.add(new Paragraph("  ")); 
+            dosya.add(new Paragraph("  ")); 
+            Paragraph p7=new Paragraph("VELİ MUVAFAKAT BELGESİ",fontBaslik);
+            p7.setAlignment(1);
+            dosya.add(p7);
+            dosya.add(new Paragraph("  ")); 
+            dosya.add(new Paragraph("Velisi bulunduğum "+ogrTCNO+" TC Kimlik Numaralı " +ogrenci.getOgrenciAdi()+" "+ogrenci.getOgrenciSoyadi()+"\'nın; Bilim ve Sanat Merkezince yapılacak kurum içi eğitim etkinlikleri ve önceden bilgilendirilmek kaydıyla kurum dışı (laboratuar çalışmaları, gözlem gezileri, kaynak kişi ve kurum ziyaretleri, fırsat eğitimleri vb.) eğitim etkinliklerine katılmasında tarafıma hiçbir sakınca bulunmadığını, öğrencinin ulaşımı ve devamının tarafımdan sağlanacağını kabul ve taahhüt ederim.",fontNormal));
+            dosya.add(new Paragraph("  "));
+            //muafa
+            dosya.add(imzaTablosuMuavafakat);
+            
+            dosya.close();
+        } 
+        catch (FileNotFoundException | DocumentException ex)
+        {
+            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            dosya.close();
+        }     
+        
+        //***Yazıcıdan çıktı alma***
+        
         // </editor-fold>
         
         

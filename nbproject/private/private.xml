@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/GUI/YeniKayitEkrani.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/DAO/VeliTipiDAO.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/DAO/OgrenciDAO.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/ENTITY/Veli.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/DAO/DAO.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/ENTITY/VeliTipi.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/ENTITY/OgrenimDurumu.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
