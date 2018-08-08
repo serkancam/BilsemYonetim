@@ -159,6 +159,12 @@ public class Veli
     public void setVeliTipi(VeliTipi veliTipi) {
         this.veliTipi = veliTipi;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Veli{" + "veliKodu=" + veliKodu + ", veliAdi=" + veliAdi + ", veliSoyadi=" + veliSoyadi + ", evAdresi=" + evAdresi + ", isAdresi=" + isAdresi + ", evTelefonu=" + evTelefonu + ", isTelefonu=" + isTelefonu + ", cepTelefonu=" + cepTelefonu + ", epostaAdresi=" + epostaAdresi + ", ogrenimDurumu=" + ogrenimDurumu + ", hayattami=" + hayattami + ", veliTipi=" + veliTipi + ", meslegi=" + meslegi + '}';
+    }
     
     
             

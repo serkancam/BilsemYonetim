@@ -45,6 +45,17 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
+import java.io.File; 
+import java.net.MalformedURLException;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaSizeName;
 /**
  *
  * @author serkancam
@@ -60,6 +71,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     String fotoYolu=null,dosyaYolu=null;
     String hata="",bilgi="";
     Veli anne=null,baba=null;
+    public Veli velayet=null;
  
     byte ogrCinsiyet=-1,ogrAileDurumu=-1,anneHayattami=-1,babaHayattami=-1;
     java.util.Date ogrDogumTarihi;
@@ -623,7 +635,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         pnlOgrenci.add(cbOgrenciVelisiKim, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 180, 30));
 
         btnFotograCek.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnFotograCek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bilsemedirne/bilsemyonetim/GUI/icons/screenshot-filled.png"))); // NOI18N
+        btnFotograCek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bilsemedirne/bilsemyonetim/GUI/icons/cek.png"))); // NOI18N
         btnFotograCek.setText("Fotoğraf Çek");
         btnFotograCek.addActionListener(new java.awt.event.ActionListener()
         {
@@ -727,7 +739,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         pnlOgrenci.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 130, 40));
 
         btnKaydet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnKaydet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bilsemedirne/bilsemyonetim/GUI/icons/Save-icon.png"))); // NOI18N
+        btnKaydet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bilsemedirne/bilsemyonetim/GUI/icons/save.png"))); // NOI18N
         btnKaydet.setText("Kaydet");
         btnKaydet.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnKaydet.addActionListener(new java.awt.event.ActionListener()
@@ -1084,8 +1096,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             JOptionPane.showMessageDialog(rootPane, "Lütfen TC Kimlik No Bilgisi giriniz","Hata",JOptionPane.ERROR_MESSAGE);
              return;
         }
-      // fotoYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
-       fotoYolu="G:/bilsem/foto/"+txtOgrenciTCNO.getText()+".jpg";
+       // fotoYolu="\\\\SNCO_IDARI_1\\bilsem\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
+        fotoYolu="G:/bilsem/foto/"+txtOgrenciTCNO.getText()+".jpg";
         Highgui.imwrite(fotoYolu, frame);
         FotografiPaneleBas();
         
@@ -1097,6 +1109,13 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
        if(cbOgrenciVelisiKim.getSelectedIndex()>0)
        {
         secilenVelitipi=((Cift)cbOgrenciVelisiKim.getSelectedItem()).key;
+        if(secilenVelitipi>2)
+        {
+            VeliBilgisi vb=new VeliBilgisi();
+            vb.veliTipi=secilenVelitipi;
+            vb.ataPencere=this;
+            vb.setVisible(true);
+        }
        
         
        }
@@ -1200,6 +1219,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private void btnKaydetActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnKaydetActionPerformed
     {//GEN-HEADEREND:event_btnKaydetActionPerformed
         // TODO add your handling code here:
+        System.out.println(velayet.toString());
         boolean islem=true;
         
         Locale trlocale= Locale.forLanguageTag("tr-TR");
@@ -1591,7 +1611,16 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         //***Veritabınına kayıt ekleme***
         OgrenciDAO islemler=new OgrenciDAO();
         
-        Integer ilkKayit = islemler.IlkKayit(ogrenci, anne, baba,yetenekAlanlari); 
+        Integer ilkKayit;
+        if(secilenVelitipi<=2)
+        {
+            ilkKayit=islemler.IlkKayit(ogrenci, anne, baba,yetenekAlanlari); 
+        }
+        else
+        {
+            ilkKayit=islemler.IlkKayit(ogrenci, anne, baba,velayet,yetenekAlanlari); 
+        }
+        islemler.IlkKayit(ogrenci, anne, baba,yetenekAlanlari); 
         if(ilkKayit>0)
         {
             System.out.println("Kayıt işlemi başarılı");  
@@ -1600,13 +1629,13 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         else
         {
             System.out.println("Kayıt işlemi başarısız");  
-            JOptionPane.showMessageDialog(rootPane, "Bilgileriniz kaydedilemedi lütfen tekrar deneyiniz","Hata",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Bilgileriniz kaydedilemedi lütfen idareye haber veriniz","Hata",JOptionPane.ERROR_MESSAGE);
             return;
         }
         //***Pdf oluşturma***
         
        
-        // dosyaYolu="\\\\SNCO_IDARI_1\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
+        //dosyaYolu="\\\\SNCO_IDARI_1\\bilsem\\dosya\\"+txtOgrenciTCNO.getText()+".pdf";
         dosyaYolu="G:\\bilsem\\dosya"+"\\"+txtOgrenciTCNO.getText()+".pdf";
         
         Document dosya=new Document(PageSize.A4);
@@ -1712,9 +1741,13 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 veli=anne;
                 
             }
-            else
+            else if(secilenVelitipi==2)
             {
                 veli=baba;
+            }
+            else
+            {
+                veli=velayet;
             }
             //adı-soyadı
             hucreBaslik = new PdfPCell(new Paragraph( "Adı-Soyadı",fontBaslik));  
@@ -1927,10 +1960,17 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         catch (FileNotFoundException | DocumentException ex)
         {
             Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("PDF oluşturma işlemi başarısız");  
+            JOptionPane.showMessageDialog(rootPane, "PDF oluşturulamadı lütfen idareye haber veriniz\n"+ex.getMessage(),"Hata",JOptionPane.ERROR_MESSAGE);
+            return;
+            
         } 
         catch (IOException ex)
         {
             Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("PDF oluşturma işlemi başarısız");  
+            JOptionPane.showMessageDialog(rootPane, "PDF oluşturulamadı lütfen idareye haber veriniz\n"+ex.getMessage(),"Hata",JOptionPane.ERROR_MESSAGE);
         }
         finally
         {
@@ -1938,6 +1978,21 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         }     
         
         //***Yazıcıdan çıktı alma***
+         try 
+        {
+            PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+            DocPrintJob printJob = defaultPrintService.createPrintJob();
+            PrintRequestAttributeSet as = new HashPrintRequestAttributeSet();
+            File pdfFile = new File(dosyaYolu);
+            SimpleDoc simpleDoc = new SimpleDoc(pdfFile.toURI().toURL(),DocFlavor.URL.AUTOSENSE, null);
+            as.add(MediaSizeName.ISO_A4);
+            printJob.print(simpleDoc, as);
+        } 
+        catch (MalformedURLException | PrintException e) 
+        {
+                          
+            JOptionPane.showMessageDialog(rootPane, "Bilgileriniz yazdırılamadı lütfen idareye haber veriniz\n"+e.getMessage(),"Hata",JOptionPane.ERROR_MESSAGE);
+        }
         
         // </editor-fold>
         

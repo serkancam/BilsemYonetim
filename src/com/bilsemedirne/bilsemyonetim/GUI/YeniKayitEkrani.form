@@ -551,7 +551,7 @@
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/screenshot-filled.png"/>
+              <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/cek.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Foto&#x11f;raf &#xc7;ek"/>
           </Properties>
@@ -748,7 +748,7 @@
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/Save-icon.png"/>
+              <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/save.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Kaydet"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
