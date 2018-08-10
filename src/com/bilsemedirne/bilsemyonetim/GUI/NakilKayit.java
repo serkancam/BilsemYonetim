@@ -62,7 +62,7 @@ import javax.print.attribute.standard.MediaSizeName;
  */
 
 
-public class YeniKayitEkrani extends javax.swing.JInternalFrame 
+public class NakilKayit extends YeniKayitEkrani 
 {
     // <editor-fold defaultstate="collapsed" desc="Degişkenler">
    
@@ -165,7 +165,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             } 
             catch (IOException ex) 
             {
-                Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NakilKayit.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -247,9 +247,23 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         }
     }
     
-     // </editor-fold>
+    void BilsemlerCBDoldur()
+    {
+       List<Bilsemler> bilsemler =null;
+      
+       BilsemlerDAO islem=new BilsemlerDAO();
+       bilsemler=islem.TumBilsemleriGetir();
+      
+        for (Bilsemler gelen : bilsemler) 
+        {            
+            cbNakilGelinenBilsem.addItem(new Cift(gelen.getBilsemKodu(),gelen.getBilsemAdi()));                        
+            
+            
+        }
+    }
+    // </editor-fold>
     
-    public YeniKayitEkrani() 
+    public NakilKayit() 
     {        
         initComponents();      
         
@@ -301,6 +315,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         cbTanilamaIli = new javax.swing.JComboBox<>();
+        cbNakilGelinenBilsem = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         txtKayitTarihi = new javax.swing.JFormattedTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -549,6 +565,20 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             }
         });
         pnlOgrenci.add(cbTanilamaIli, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 30, 150, 30));
+
+        cbNakilGelinenBilsem.setMaximumRowCount(6);
+        cbNakilGelinenBilsem.setModel(new javax.swing.DefaultComboBoxModel<>(new Cift[] { new Cift(-1,"Nakil Gelinen Bilsem Seç")}));
+        cbNakilGelinenBilsem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                cbNakilGelinenBilsemActionPerformed(evt);
+            }
+        });
+        pnlOgrenci.add(cbNakilGelinenBilsem, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 200, 30));
+
+        jLabel17.setText("<html>Nakil Geldiği Bilsem</html>");
+        pnlOgrenci.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, 100, 30));
 
         jLabel18.setText("Kayıt Tarihi");
         pnlOgrenci.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 590, 120, 30));
@@ -1024,7 +1054,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         VelitipiCBDoldur();
         OkulIlcesiCBDoldur();
         IllerCbDoldur();
-        
+        BilsemlerCBDoldur();
         OgrenimDurumuCBDoldur();
         
        java.util.Date simdi=new java.util.Date();
@@ -1151,6 +1181,17 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         }
         
     }//GEN-LAST:event_cbOgrenciSinifSeviyesiActionPerformed
+
+    private void cbNakilGelinenBilsemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNakilGelinenBilsemActionPerformed
+        // TODO add your handling code here:
+       nakilGeldigiBilsem=-1;
+       if(cbNakilGelinenBilsem.getSelectedIndex()>0)
+       {
+        nakilGeldigiBilsem=((Cift)cbNakilGelinenBilsem.getSelectedItem()).key;
+        System.out.println(((Cift)cbNakilGelinenBilsem.getSelectedItem()).value); 
+        
+       }
+    }//GEN-LAST:event_cbNakilGelinenBilsemActionPerformed
 
     private void cbAnneOgrenimDurumuActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cbAnneOgrenimDurumuActionPerformed
     {//GEN-HEADEREND:event_cbAnneOgrenimDurumuActionPerformed
@@ -1294,7 +1335,11 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
               islem=false;
             hata+="\n"+"* Lütfen öğrencinin ilk BİLSEM'e başladığı İl bilgisini  seçiniz."; 
           }
-          
+          if(((Cift)cbNakilGelinenBilsem.getSelectedItem()).key==-1)
+          {
+              islem=false;
+            hata+="\n"+"* Lütfen öğrencinin nakil geldiği BİLSEM bilgisini seçiniz."; 
+          }
         if((!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected())) || (chkbGenel.isSelected() && chkbGorsel.isSelected() && chkbMuzik.isSelected()))
         {
             islem=false;
@@ -1501,6 +1546,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         ogrenci.setIlkBilsemBaslamaIli(new Il(bilsemBaslamaIli,((Cift) cbTanilamaIli.getSelectedItem()).value));
         ogrenci.setIlkBilsemBaslamaYili(ilkBilsemBaslamaYili);
         ogrenci.setKayitTarihi(ogrKayitTarihi);
+        ogrenci.setNakilGeldigiBilsem(new Bilsemler(nakilGeldigiBilsem,((Cift)cbNakilGelinenBilsem.getSelectedItem()).value));
         ogrenci.setOgrenciAdi(ogrAdi);
         ogrenci.setOgrenciBilsemNo((short)-1);
         ogrenci.setOgrenciSoyadi(ogrSoyadi);
@@ -1913,7 +1959,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         } 
         catch (FileNotFoundException | DocumentException ex)
         {
-            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NakilKayit.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("PDF oluşturma işlemi başarısız");  
             JOptionPane.showMessageDialog(rootPane, "PDF oluşturulamadı lütfen idareye haber veriniz\n"+ex.getMessage(),"Hata",JOptionPane.ERROR_MESSAGE);
             return;
@@ -1921,8 +1967,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         } 
         catch (IOException ex)
         {
-            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger(YeniKayitEkrani.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NakilKayit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NakilKayit.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("PDF oluşturma işlemi başarısız");  
             JOptionPane.showMessageDialog(rootPane, "PDF oluşturulamadı lütfen idareye haber veriniz\n"+ex.getMessage(),"Hata",JOptionPane.ERROR_MESSAGE);
         }
@@ -2061,6 +2107,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private javax.swing.JComboBox<Cift> cbAnneOgrenimDurumu;
     private javax.swing.JComboBox<Cift> cbBabaOgrenimDurumu;
     private javax.swing.JComboBox<Cift> cbBilsemBaslamaIli;
+    private javax.swing.JComboBox<Cift> cbNakilGelinenBilsem;
     private javax.swing.JComboBox<String> cbOgrenciSinifSeviyesi;
     private javax.swing.JComboBox<Cift> cbOgrenciVelisiKim;
     private javax.swing.JComboBox<Cift> cbOrgunEgitimOkulu;
@@ -2077,6 +2124,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;

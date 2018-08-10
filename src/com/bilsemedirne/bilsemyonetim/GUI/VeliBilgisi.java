@@ -28,6 +28,7 @@ public class VeliBilgisi extends javax.swing.JFrame
      * Creates new form VeliBilgisi
      */
     public YeniKayitEkrani ataPencere;
+    
     public VeliBilgisi()
     {
         initComponents();

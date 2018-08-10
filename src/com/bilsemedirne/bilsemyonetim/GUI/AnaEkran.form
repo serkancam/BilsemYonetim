@@ -21,10 +21,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mYeniKayitActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mYenileme">
+            <MenuItem class="javax.swing.JMenuItem" name="mNakilKayit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kay&#x131;t Yenileme"/>
+                <Property name="text" type="java.lang.String" value="Nakil Kay&#x131;t"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mNakilKayitActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

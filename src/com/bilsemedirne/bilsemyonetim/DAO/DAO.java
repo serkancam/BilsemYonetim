@@ -17,16 +17,16 @@ import java.sql.Statement;
 public class DAO 
 {
     
-    private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/bilsem1819?useSSL=false";
-    private static final String ID = "root";
-    private static final String PASS = "";
-    
-    
 //    private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
-//    private static final String DB_URL = "jdbc:mysql://192.168.1.109:3306/bilsem1819?useSSL=false";
-//    private static final String ID = "uzak";
-//    private static final String PASS = "147852369";
+//    private static final String DB_URL = "jdbc:mysql://localhost:3306/bilsem1819?useSSL=false";
+//    private static final String ID = "root";
+//    private static final String PASS = "";
+    
+    
+    private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
+    private static final String DB_URL = "jdbc:mysql://192.168.1.109:3306/bilsem1819?useSSL=false";
+    private static final String ID = "uzak";
+    private static final String PASS = "147852369";
     
     public Connection getConnection()
     {      

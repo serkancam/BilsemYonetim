@@ -14,6 +14,7 @@ import org.opencv.core.Core;
  */
 public class AnaEkran extends javax.swing.JFrame {
  YeniKayitEkrani yke=null;
+ NakilKayit nke=null;
   static
     {
         System.load(System.getProperty("user.dir")+"\\opencv\\opencv_java249.dll");
@@ -40,7 +41,7 @@ public class AnaEkran extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         mIslemler = new javax.swing.JMenu();
         mYeniKayit = new javax.swing.JMenuItem();
-        mYenileme = new javax.swing.JMenuItem();
+        mNakilKayit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -71,8 +72,15 @@ public class AnaEkran extends javax.swing.JFrame {
         });
         mIslemler.add(mYeniKayit);
 
-        mYenileme.setText("Kayıt Yenileme");
-        mIslemler.add(mYenileme);
+        mNakilKayit.setText("Nakil Kayıt");
+        mNakilKayit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                mNakilKayitActionPerformed(evt);
+            }
+        });
+        mIslemler.add(mNakilKayit);
 
         menuBar.add(mIslemler);
 
@@ -115,10 +123,29 @@ public class AnaEkran extends javax.swing.JFrame {
         {
             System.out.println("Direk kapatma hatası");
         }
+         try
+        {
+            nke.myThread.runnable=false;
+            nke.webSource.release();
+                       
+        } 
+        catch (Exception e)
+        {
+            System.out.println("Direk kapatma hatası");
+        }
        
 
       
     }//GEN-LAST:event_formWindowClosing
+
+    private void mNakilKayitActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mNakilKayitActionPerformed
+    {//GEN-HEADEREND:event_mNakilKayitActionPerformed
+        // TODO add your handling code here:
+        nke=new NakilKayit();
+        desktopPane.add(nke);
+        nke.setVisible(true );
+       
+    }//GEN-LAST:event_mNakilKayitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,8 +189,8 @@ public class AnaEkran extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu mIslemler;
+    private javax.swing.JMenuItem mNakilKayit;
     private javax.swing.JMenuItem mYeniKayit;
-    private javax.swing.JMenuItem mYenileme;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
