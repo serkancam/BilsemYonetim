@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class OgrenimDurumuDAO extends DAO
 {
-    private final String tumOgrenimDurumlariGetir = "select * from ogrenimdurumu";
+    private final String tumOgrenimDurumlariGetir = "select * from ogrenimdurumu where ogrenimDurumuKodu<=7";
     
     public List<OgrenimDurumu> TumOgrenimDurumlariGetir()
     {

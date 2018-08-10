@@ -67,7 +67,7 @@ public class NakilKayit extends YeniKayitEkrani
     // <editor-fold defaultstate="collapsed" desc="Degişkenler">
    
 
-    Ogrenci ogrenci=null;
+   /* Ogrenci ogrenci=null;
     String fotoYolu=null,dosyaYolu=null;
     String hata="",bilgi="";
     Veli anne=null,baba=null;
@@ -83,7 +83,7 @@ public class NakilKayit extends YeniKayitEkrani
             ogrOrgunEgitimNo="",ogrSurekliIlac="",ogrSurekliHastalik="",anneAd="",anneSoyad="",anneEposta="",anneEvTelefon="",
             anneIsTelefon="",anneCeptelefon="",anneMeslegi="",anneEvAdresi="",anneIsAdresi="",babaAd="",babaSoyad="",babaEposta="",babaEvTelefon="",
             babaIsTelefon="",babaIsAdresi="",babaCeptelefon="",babaMeslegi="",babaEvAdresi="";
-    boolean[] yetenekAlanlari={false,false,false};//genel,görsel,müzik
+    boolean[] yetenekAlanlari={false,false,false};//genel,görsel,müzik*/
     
             
            
@@ -170,7 +170,7 @@ public class NakilKayit extends YeniKayitEkrani
         }
     }
 // </editor-fold>
-    
+    /*
     // <editor-fold defaultstate="collapsed" desc="Combobox ların dolurulması">
     void VelitipiCBDoldur()
     {
@@ -246,7 +246,7 @@ public class NakilKayit extends YeniKayitEkrani
             
         }
     }
-    
+    */
     void BilsemlerCBDoldur()
     {
        List<Bilsemler> bilsemler =null;

@@ -317,7 +317,15 @@ public class VeliBilgisi extends javax.swing.JFrame
         ataPencere.velayet.setIsAdresi(veliIsAdresi);
         ataPencere.velayet.setIsTelefonu(veliIsTelefon);
         ataPencere.velayet.setMeslegi(veliMeslegi);
-        ataPencere.velayet.setOgrenimDurumu(new OgrenimDurumu(veliOgrenimDurumu,((Cift)cbVeliOgrenimDurumu.getSelectedItem()).value));
+         if(veliOgrenimDurumu==-1)
+        {
+            veliOgrenimDurumu=8;
+            ataPencere.velayet.setOgrenimDurumu(new OgrenimDurumu(veliOgrenimDurumu,((Cift)cbVeliOgrenimDurumu.getSelectedItem()).value));
+        }
+        else
+        {
+            ataPencere.velayet.setOgrenimDurumu(new OgrenimDurumu(veliOgrenimDurumu,((Cift)cbVeliOgrenimDurumu.getSelectedItem()).value));
+        }
         ataPencere.velayet.setVeliAdi(veliAd);
         ataPencere.velayet.setVeliSoyadi(veliSoyad);
         ataPencere.velayet.setVeliTipi(new VeliTipi(veliTipi));

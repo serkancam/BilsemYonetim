@@ -141,10 +141,11 @@ public class AnaEkran extends javax.swing.JFrame {
     private void mNakilKayitActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mNakilKayitActionPerformed
     {//GEN-HEADEREND:event_mNakilKayitActionPerformed
         // TODO add your handling code here:
+        /*
         nke=new NakilKayit();
         desktopPane.add(nke);
         nke.setVisible(true );
-       
+       */
     }//GEN-LAST:event_mNakilKayitActionPerformed
 
     /**
