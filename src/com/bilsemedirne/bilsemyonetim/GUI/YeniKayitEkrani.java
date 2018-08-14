@@ -1067,7 +1067,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
              return;
         }
         fotoYolu="\\\\SNCO_IDARI_1\\bilsem\\foto\\"+txtOgrenciTCNO.getText()+".jpg";
-        //fotoYolu="G:/bilsem/foto/"+txtOgrenciTCNO.getText()+".jpg";
+       // fotoYolu="G:/bilsem/foto/"+txtOgrenciTCNO.getText()+".jpg";
         Highgui.imwrite(fotoYolu, frame);
         FotografiPaneleBas();
         
@@ -1212,7 +1212,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             hata+="\n"+"* Lütfen öğrenci Adını giriniz.";          
 
         }
-          if(!txtOgrenciSoyadi.getText().trim().matches("\\S+"))
+          if(!txtOgrenciSoyadi.getText().trim().matches("^[ığĞüÜşŞİöÖçÇa-zA-Z ]+$"))
         {
             islem=false;
             hata+="\n"+"* Lütfen öğrenci soyadını giriniz.";          
@@ -1252,7 +1252,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             hata+="\n"+"* Lütfen öğrenci ilk BİLSEM başlama yılı bilgisini doğru giriniz.";          
 
         }
-        if(!(txtOgrenciAdres.getText().trim().length()>6))
+        if(!(txtOgrenciAdres.getText().trim().length()>2))
         {
         islem=false;
         hata+="\n"+"* Lütfen öğrenci adres bilgisini doğru giriniz.";          
@@ -1295,10 +1295,10 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
             hata+="\n"+"* Lütfen öğrencinin ilk BİLSEM'e başladığı İl bilgisini  seçiniz."; 
           }
           
-        if((!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected())) || (chkbGenel.isSelected() && chkbGorsel.isSelected() && chkbMuzik.isSelected()))
+        if(!(chkbGenel.isSelected() || chkbGorsel.isSelected() || chkbMuzik.isSelected()) )
         {
             islem=false;
-            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını seçiniz.(En fazla 2 alan seçilebilir.)"; 
+            hata+="\n"+"* Lütfen öğrencinin Tanımlandığı Yetenek Alan veya Alanlarını EKSİKSİZ seçiniz."; 
         }
         if(fotoYolu==null)
         {
@@ -1356,7 +1356,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 hata+="\n"+"* Lütfen Anne eposta bilgisini doğru giriniz.";          
 
             }
-              if(!(txtAnneEvAdresi.getText().trim().length()>6))
+              if(!(txtAnneEvAdresi.getText().trim().length()>2))
             {
                 islem=false;
                 hata+="\n"+"* Lütfen Anne ev adresi bilgisini doğru giriniz.";          
@@ -1389,7 +1389,7 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
                 hata+="\n"+"* Lütfen Baba eposta bilgisini doğru giriniz.";          
 
             }
-              if(!(txtBabaEvAdresi.getText().trim().length()>6))
+              if(!(txtBabaEvAdresi.getText().trim().length()>2))
             {
                 islem=false;
                 hata+="\n"+"* Lütfen Baba ev adresi bilgisini doğru giriniz.";          
@@ -1607,8 +1607,8 @@ public class YeniKayitEkrani extends javax.swing.JInternalFrame
         //***Pdf oluşturma***
         
        
-        dosyaYolu="\\\\SNCO_IDARI_1\\bilsem\\dosya\\"+txtOgrenciTCNO.getText().trim()+".pdf";
-        //dosyaYolu="G:\\bilsem\\dosya"+"\\"+txtOgrenciTCNO.getText()+".pdf";
+        //dosyaYolu="\\\\SNCO_IDARI_1\\bilsem\\dosya\\"+txtOgrenciTCNO.getText().trim()+".pdf";
+        dosyaYolu="G:\\bilsem\\dosya"+"\\"+txtOgrenciTCNO.getText()+".pdf";
         
         Document dosya=new Document(PageSize.A4);
         try

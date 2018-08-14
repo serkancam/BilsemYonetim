@@ -5,8 +5,8 @@
         <group>
             <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/GUI/YeniKayitEkrani.java</file>
             <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/GUI/AnaEkran.java</file>
-            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/GUI/VeliBilgisi.java</file>
             <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/DAO/OgrenciDAO.java</file>
+            <file>file:/G:/Calismalar/java/BilsemYonetim/src/com/bilsemedirne/bilsemyonetim/DAO/DAO.java</file>
         </group>
     </open-files>
 </project-private>

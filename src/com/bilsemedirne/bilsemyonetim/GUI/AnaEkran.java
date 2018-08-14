@@ -56,6 +56,7 @@ public class AnaEkran extends javax.swing.JFrame {
         desktopPane.setBackground(new java.awt.Color(255, 255, 255));
         org.jdesktop.swingx.border.IconBorder iconBorder1 = new org.jdesktop.swingx.border.IconBorder();
         iconBorder1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bilsemedirne/bilsemyonetim/GUI/icons/logo.png"))); // NOI18N
+        iconBorder1.setPadding(100);
         desktopPane.setBorder(iconBorder1);
 
         mIslemler.setMnemonic('e');

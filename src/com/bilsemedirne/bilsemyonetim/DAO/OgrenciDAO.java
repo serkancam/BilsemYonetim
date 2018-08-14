@@ -32,7 +32,7 @@ public class OgrenciDAO extends DAO
     public Integer IlkKayit(Ogrenci ogrenci, Veli anne, Veli baba, boolean[] yetenekAlanlari) 
     {
         Integer result=0;
-        int pk = 0;
+        int pkA=0,pkB = 0;
         
         Connection conn = null;
         PreparedStatement stmtOgrenci = null;
@@ -123,36 +123,33 @@ public class OgrenciDAO extends DAO
                         }
                     }
                     //
-                    if(ogrenci.getVelayet().getVeliTipiKodu()==1)
-                    {
-                        
+                     
                         while(rsA.next())
                         {
-                         pk = rsA.getInt(1);
+                         pkA = rsA.getInt(1);
                         }
-                    }
-                    else if(ogrenci.getVelayet().getVeliTipiKodu()==2)
-                    {
+                    
                         
                         while(rsB.next())
                         {
-                         pk = rsB.getInt(1);
+                         pkB = rsB.getInt(1);
                         }
-                    }
-                    else
-                    {
-                        ;
-                    }
+                   
                     
-                    stmtVelisi = conn.prepareStatement(ilkKayitVelisiKim);
-                     
+                    stmtVelisi = conn.prepareStatement(ilkKayitVelisiKim);                     
                     stmtVelisi.setString(1, ogrenci.getOgrenciTCNO());
-                    stmtVelisi.setInt(2, (int) pk);
+                    stmtVelisi.setInt(2, (int) pkA);
                     result +=stmtVelisi.executeUpdate();
+                    
+                    stmtVelisi = conn.prepareStatement(ilkKayitVelisiKim);                     
+                    stmtVelisi.setString(1, ogrenci.getOgrenciTCNO());
+                    stmtVelisi.setInt(2, (int) pkB);
+                    result +=stmtVelisi.executeUpdate();
+                    
                     
                     conn.commit();
                     
-                    System.out.println("*******************önemli************** \n"+pk+"\n*******************önemli************** \n");
+                   // System.out.println("*******************önemli************** \n"+pk+"\n*******************önemli************** \n");
                     //
                    
 		}
@@ -192,7 +189,7 @@ public class OgrenciDAO extends DAO
     public Integer IlkKayit(Ogrenci ogrenci, Veli anne, Veli baba,Veli veli, boolean[] yetenekAlanlari) 
     {
         Integer result=0;
-        int pk = 0;
+        int pkA=0,pkB=0,pkV = 0;
         
         Connection conn = null;
         PreparedStatement stmtOgrenci = null;
@@ -301,39 +298,42 @@ public class OgrenciDAO extends DAO
                         }
                     }
                     //
-                    if(ogrenci.getVelayet().getVeliTipiKodu()==1)
-                    {
-                        
+                     
                         while(rsA.next())
                         {
-                         pk = rsA.getInt(1);
+                         pkA = rsA.getInt(1);
                         }
-                    }
-                    else if(ogrenci.getVelayet().getVeliTipiKodu()==2)
-                    {
+                   
                         
                         while(rsB.next())
                         {
-                         pk = rsB.getInt(1);
+                         pkB = rsB.getInt(1);
                         }
-                    }
-                    else
-                    {
+                    
                         while(rsV.next())
                         {
-                         pk = rsV.getInt(1);
+                         pkV = rsV.getInt(1);
                         }
-                    }
+                    
+                    
+                    stmtVelisi = conn.prepareStatement(ilkKayitVelisiKim);                     
+                    stmtVelisi.setString(1, ogrenci.getOgrenciTCNO());
+                    stmtVelisi.setInt(2, (int) pkA);
+                    result +=stmtVelisi.executeUpdate();
                     
                     stmtVelisi = conn.prepareStatement(ilkKayitVelisiKim);
-                     
                     stmtVelisi.setString(1, ogrenci.getOgrenciTCNO());
-                    stmtVelisi.setInt(2, (int) pk);
+                    stmtVelisi.setInt(2, (int) pkB);
+                    result +=stmtVelisi.executeUpdate();
+                    
+                    stmtVelisi = conn.prepareStatement(ilkKayitVelisiKim);
+                    stmtVelisi.setString(1, ogrenci.getOgrenciTCNO());
+                    stmtVelisi.setInt(2, (int) pkV);
                     result +=stmtVelisi.executeUpdate();
                     
                     conn.commit();
                     
-                    System.out.println("*******************önemli************** \n"+pk+"\n*******************önemli************** \n");
+                   // System.out.println("*******************önemli************** \n"+pk+"\n*******************önemli************** \n");
                     //
                    
 		}

@@ -1562,7 +1562,7 @@ public class NakilKayit extends YeniKayitEkrani
         ogrenci.setTanimlananIl(new Il(bilsemTanimlamaIli,((Cift)cbTanilamaIli.getSelectedItem()).value));
         ogrenci.setVelayet(new VeliTipi(secilenVelitipi,((Cift)cbOgrenciVelisiKim.getSelectedItem()).value));
         
-        //Anne değerleri Sınıflara aktarılıyor
+       //Anne değerleri Sınıflara aktarılıyor
         anne.setVeliAdi(anneAd);
         anne.setVeliSoyadi(anneSoyad);
         anne.setEvAdresi(anneEvAdresi);
@@ -1571,7 +1571,16 @@ public class NakilKayit extends YeniKayitEkrani
         anne.setIsTelefonu(anneIsTelefon);
         anne.setCepTelefonu(anneCeptelefon);
         anne.setEpostaAdresi(anneEposta);
-        anne.setOgrenimDurumu(new OgrenimDurumu(anneOgrenimDurumu,((Cift)cbAnneOgrenimDurumu.getSelectedItem()).value));
+        if(anneOgrenimDurumu==-1)
+        {
+            anneOgrenimDurumu=8;
+            anne.setOgrenimDurumu(new OgrenimDurumu(anneOgrenimDurumu,((Cift)cbAnneOgrenimDurumu.getSelectedItem()).value));
+        }
+        else
+        {
+            anne.setOgrenimDurumu(new OgrenimDurumu(anneOgrenimDurumu,((Cift)cbAnneOgrenimDurumu.getSelectedItem()).value));
+        }
+        
         anne.setHayattami(anneHayattami);
         anne.setVeliTipi(new VeliTipi(1));
         anne.setMeslegi(anneMeslegi);
@@ -1584,7 +1593,15 @@ public class NakilKayit extends YeniKayitEkrani
         baba.setIsTelefonu(babaIsTelefon);
         baba.setCepTelefonu(babaCeptelefon);
         baba.setEpostaAdresi(babaEposta);
-        baba.setOgrenimDurumu(new OgrenimDurumu(babaOgrenimDurumu,((Cift)cbBabaOgrenimDurumu.getSelectedItem()).value));
+        if(babaOgrenimDurumu==-1)
+        {
+            babaOgrenimDurumu=8;
+            baba.setOgrenimDurumu(new OgrenimDurumu(babaOgrenimDurumu,((Cift)cbBabaOgrenimDurumu.getSelectedItem()).value));
+        }
+        else
+        {
+            baba.setOgrenimDurumu(new OgrenimDurumu(babaOgrenimDurumu,((Cift)cbBabaOgrenimDurumu.getSelectedItem()).value));
+        }
         baba.setHayattami(babaHayattami);
         baba.setVeliTipi(new VeliTipi(2));
         baba.setMeslegi(babaMeslegi);

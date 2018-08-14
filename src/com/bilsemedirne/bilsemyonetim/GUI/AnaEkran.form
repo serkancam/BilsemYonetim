@@ -83,6 +83,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/bilsemedirne/bilsemyonetim/GUI/icons/logo.png"/>
             </Property>
+            <Property name="padding" type="int" value="100"/>
           </PropertyBean>
         </Property>
       </Properties>
